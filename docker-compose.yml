@@ -1,0 +1,12 @@
+services:
+  nextjs:
+    container_name: nextjs-dev
+    image: nextjs-dev
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
