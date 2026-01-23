@@ -14,64 +14,127 @@ const LINKS = [
 
 export default function Navbar() {
   const pathname = usePathname()
-  const indicatorRef = useRef<HTMLDivElement>(null)
+
   const containerRef = useRef<HTMLDivElement>(null)
+  const activeRef = useRef<HTMLDivElement>(null)
+  const hoverRef = useRef<HTMLDivElement>(null)
+
   const [activeIndex, setActiveIndex] = useState(0)
 
+  const leftLinks = LINKS.slice(0, -1)
+  const rightLink = LINKS[LINKS.length - 1]
+
   useEffect(() => {
-    const index = LINKS.findIndex(link => link.href === pathname)
+    const index = LINKS.findIndex(l => l.href === pathname)
     setActiveIndex(index === -1 ? 0 : index)
   }, [pathname])
 
   useEffect(() => {
-    moveTo(activeIndex, false)
+    moveActive(activeIndex)
+    resetHover()
   }, [activeIndex])
 
-  const moveTo = (index: number, animate = true) => {
-    if (!containerRef.current || !indicatorRef.current) return
+  const getLinkEl = (index: number) =>
+    containerRef.current?.querySelectorAll<HTMLAnchorElement>('a')[index]
 
-    const links = containerRef.current.querySelectorAll<HTMLAnchorElement>('a')
-    const target = links[index]
-    if (!target) return
+  const moveActive = (index: number) => {
+    const el = getLinkEl(index)
+    if (!el || !activeRef.current || !containerRef.current) return
+    gsap.set(activeRef.current, {
+      x: el.offsetLeft,
+      width: el.offsetWidth,
+    })
+  }
 
-    const { offsetLeft, offsetWidth } = target
+  const moveHover = (index: number) => {
+    const el = getLinkEl(index)
+    if (!el || !hoverRef.current || !containerRef.current) return
 
-    gsap.to(indicatorRef.current, {
-      x: offsetLeft,
-      width: offsetWidth,
-      backgroundColor: animate ? '#555' : '#444',
-      duration: animate ? 0.4 : 0,
+    gsap.to(hoverRef.current, {
+      x: el.offsetLeft,
+      width: el.offsetWidth,
+      duration: 0.35,
       ease: 'power3.out',
+      opacity: 1,
+    })
+  }
+
+  const resetHover = () => {
+    if (!hoverRef.current || !activeRef.current) return
+
+    gsap.to(hoverRef.current, {
+      x: activeRef.current._gsap.x,
+      width: activeRef.current._gsap.width,
+      duration: 0.35,
+      ease: 'power3.out',
+      opacity: 0,
     })
   }
 
   return (
-    <nav className="w-full flex justify-center">
+    <nav className="flex w-full justify-center fixed">
       <div
         ref={containerRef}
-        className="relative flex items-center gap-2 px-3 py-2 rounded-full backdrop-blur"
-        style={{ background: "var(--black)" }}
+        className="
+          relative flex items-center justify-between
+          w-[931px] h-[57px]
+          rounded-[12px]
+        "
+        style={{ background: 'var(--black)', border: "1px solid var(--nav-active)" }}
       >
-        {/* INDICATEUR */}
         <div
-          ref={indicatorRef}
-          className="absolute top-1 bottom-1 rounded-full bg-[#444]"
-          style={{ width: 0 }}
+          ref={activeRef}
+          className="
+            absolute top-[2px] bottom-[2px]
+            rounded-[9px] z-6
+          "
+          style={{ background: "var(--nav-active" }}
         />
 
-        {/* LINKS */}
-        {LINKS.map((link, i) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="relative z-10 px-6 py-2 text-lg"
-            style={{ color: "var(--white)" }}
-            onMouseEnter={() => moveTo(i)}
-            onMouseLeave={() => moveTo(activeIndex)}
-          >
-            {link.label}
-          </Link>
-        ))}
+        <div
+          ref={hoverRef}
+          className="
+            absolute top-[2px] bottom-[2px]
+            rounded-[9px]
+            opacity-0 z-5
+          "
+          style={{ background: "var(--nav-hover" }}
+        />
+
+        <div className="flex ml-[2px]">
+          {leftLinks.map((link, i) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="
+                relative z-10
+                px-[30px] py-[14px]
+                whitespace-nowrap
+              "
+              style={{ color: 'var(--white)' }}
+              onMouseEnter={() => moveHover(i)}
+              onMouseLeave={resetHover}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* LIEN DROITE */}
+        <Link
+          href={rightLink.href}
+          className="
+            relative z-10
+            whitespace-nowrap
+            px-[30px] py-[14px]
+            mr-[2px]
+          "
+          style={{ color: 'var(--white)' }}
+          onMouseEnter={() => moveHover(LINKS.length - 1)}
+          onMouseLeave={resetHover}
+        >
+          {rightLink.label}
+        </Link>
       </div>
     </nav>
   )

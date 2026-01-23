@@ -1,11 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --background: #151515;
 
   --main-color: #1495EA;
+  --secondary-blue: #98D6FF;
   --secondary-color: #A7A7A7;
 
   --nav-active: #414141;
@@ -20,14 +19,20 @@
   --h2-mob: 30px;
   --txt-desk: 23px;
   --txt-mob: 15px;
+  --title-social: 50px;
+  --txt-social: 20px;
+  --footer-title: 40px;
+  --footer-links: 25px;
 }
 
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 
 html,
@@ -41,4 +46,8 @@ body {
   color: var(--white);
   font-family: var(--font-main), system-ui, sans-serif;
   margin: 0;
+}
+
+.rdp-root {
+  --rdp-accent-color: var(--main-color)!important;
 }

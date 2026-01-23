@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import localFont from 'next/font/local'
+import Image from 'next/image'
+import Link from 'next/link'
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const myFont = localFont({
   src: [
     {
-      path: '../../public/fonts/Degular-Thin.otf',
+      path: '../../public/fonts/Degular-Regular.otf',
       weight: '400',
       style: 'normal',
     },
@@ -30,8 +33,14 @@ export default function RootLayout({
       <body
         className={myFont.variable}
       >
-        <Navbar />
+        <div className="flex items-center pt-[30px] fixed z-999">
+          <Link href='/' className="ml-[125px] cursor-pointer z-10">
+            <Image src='/logo.svg' alt='Logo Scenium' width={115} height={44} />
+          </Link>
+          <Navbar />
+        </div>
         {children}
+        <Footer />
       </body>
     </html>
   );
