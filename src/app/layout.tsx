@@ -13,6 +13,11 @@ const myFont = localFont({
       weight: '400',
       style: 'normal',
     },
+    {
+      path: '../../public/fonts/Degular-Semibold.otf',
+      weight: '600',
+      style: 'semibold',
+    },
   ],
   variable: '--font-main',
   display: 'swap',

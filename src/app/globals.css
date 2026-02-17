@@ -3,9 +3,12 @@
 :root {
   --background: #151515;
 
-  --main-color: #1495EA;
+  --main-color-hexa: #1495EA;
+  --main-color-rgb: 20, 149, 234;
   --secondary-blue: #98D6FF;
-  --secondary-color: #A7A7A7;
+  --grey: #111;
+  --border-grey: #5D5D5D;
+  --secondary-grey: #A7A7A7;
 
   --nav-active: #414141;
   --nav-hover: #272727;
@@ -23,6 +26,9 @@
   --txt-social: 20px;
   --footer-title: 40px;
   --footer-links: 25px;
+  --whoweare: 16px;
+
+  --line-height: 25px;
 }
 
 @layer base {
@@ -48,6 +54,77 @@ body {
   margin: 0;
 }
 
+/* DATE-PICKER-COLOR */
 .rdp-root {
   --rdp-accent-color: var(--main-color)!important;
+}
+
+/* SLIDER-BOX */
+[data-slot="active"] {
+  @apply row-start-2 row-end-4 col-start-1 col-end-2 p-[17px];
+}
+
+[data-slot="left"] {
+  @apply row-start-2 row-end-3 col-start-2 col-end-3 p-[9px];
+}
+
+[data-slot="right"] {
+  @apply row-start-2 row-end-3 col-start-3 col-end-4 p-[9px];
+}
+
+[data-slot="out"] {
+  @apply translate-y-[100%];
+}
+
+/* GLOW DIV */
+.glow-border {
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-intensity: 0;
+  --glow-radius: 200px;
+  --glow-color: #1495EA;
+
+  position: relative;
+  border-radius: inherit;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 10px;
+  background: var(--border-grey);
+  pointer-events: none;
+
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  z-index: 1;
+}
+
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 10px;
+
+  background: radial-gradient(
+    var(--glow-radius) circle at var(--glow-x) var(--glow-y),
+    rgba(var(--glow-color), calc(var(--glow-intensity))),
+    rgba(var(--glow-color), calc(var(--glow-intensity))),
+    transparent 60%
+  );
+
+  pointer-events: none;
+
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  z-index: 2;
 }

@@ -82,14 +82,14 @@ export default function ContactForm() {
   const baseInput =
     'w-full rounded-lg border bg-black px-[15px] py-[5px] outline-none cursor-pointer text-[19px] mb-[23px]';
   const border = (error?: boolean) =>
-    error ? '1px solid red' : "1px solid var(--secondary-color)";
+    error ? '1px solid red' : "1px solid var(--secondary-grey)";
 
   return (
     <form
       onSubmit={handleSubmit}
       className="max-w-lg text-white py-[40px]"
     >
-      {/* TYPE */}
+      {/* TYPE FORM */}
       <select
         value={type}
         onChange={(e) => changeType(e.target.value as any)}
@@ -161,25 +161,25 @@ export default function ContactForm() {
                 </span>
               </div>
 
-              {/* SUPPRIMER */}
+              {/* DELETE BOX */}
               {boxes.length > 1 && (
                 <button
                   type="button"
                   onClick={() => removeBox(index)}
                   className="flex h-10 w-10 items-center justify-center rounded-lg border text-xl cursor-pointer bg-black"
-                  style={{ border: "1px solid var(--secondary-color)" }}
+                  style={{ border: "1px solid var(--secondary-grey)" }}
                 >
                   -
                 </button>
               )}
 
-              {/* AJOUTER */}
+              {/* ADD BOX */}
               {index === boxes.length - 1 && (
                 <button
                   type="button"
                   onClick={addBox}
                   className="flex h-10 w-10 items-center justify-center rounded-lg border text-xl cursor-pointer bg-black"
-                  style={{ border: "1px solid var(--secondary-color)" }}
+                  style={{ border: "1px solid var(--secondary-grey)" }}
                 >
                   <Image src="/plus.svg" alt="Plus Icon" width={15} height={15} />
                 </button>
@@ -200,9 +200,9 @@ export default function ContactForm() {
 
       {/* SUBMIT */}
       <button className='flex items-center relative h-[40px] cursor-pointer' disabled={loading} ref={btnRef} >
-          <div className='absolute rounded-md w-[22px] h-full z-0' style={{ background: "var(--main-color)", border: "1px solid var(--secondary-blue)" }} ref={bgRef} ></div>
+          <div className='absolute rounded-md w-[22px] h-full z-0' style={{ background: "var(--main-color-hexa)", border: "1px solid var(--secondary-blue)" }} ref={bgRef} ></div>
           <Image src="/arrowContactForm.svg" alt="Arrow Icon" width={15} height={15} className='rotate-[-90deg] ml-[4px]' />
-          <p className='z-2 ml-[10px]' style={{ fontSize: 'var(--txt-social' }}>{loading ? 'Envoi...' : 'Envoyer'}</p>
+          <p className='z-2 ml-[10px] pr-[10px]' style={{ fontSize: 'var(--txt-social' }}>{loading ? 'Envoi...' : 'Envoyer'}</p>
       </button>
     </form>
   )

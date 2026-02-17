@@ -1,6 +1,6 @@
 import ContactForm from '@/components/ContactForm'
 import Social from '@/components/Social'
-import AnimatedBackground from '@/components/AnimatesBackground'
+import AnimatedBackground from '@/components/AnimatedBackground'
 import Line from '@/components/icons/Line';
 
 export default function ContactPage() {

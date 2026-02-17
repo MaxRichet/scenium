@@ -6,13 +6,13 @@ import footerLinkAnimation from '@/animations/FooterLinkAnimation';
 import Image from "next/image";
 import Link from "next/link";
 import ButtonAnimation from "@/animations/ButtonAnimation";
-import AnimatedBackground from "@/components/AnimatesBackground";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 export default function Footer() {
 
     const baseClass = 'w-[46px] h-[46px] rounded-[10px] flex items-center justify-center mx-[5px] cursor-pointer cursor-pointer';
     const baseStyle = {
-        border: '1px solid var(--secondary-color)',
+        border: '1px solid var(--secondary-grey)',
     };
     const baseInput = 'w-full rounded-lg border bg-black px-[15px] py-[5px] outline-none cursor-pointer text-[19px]';
 
@@ -30,7 +30,7 @@ export default function Footer() {
 
   return (
       <footer className='flex justify-evenly relative mt-[100px] py-[200px] items-center' ref={footerRef} >
-        <AnimatedBackground />
+        <AnimatedBackground fadeDirection="top" />
         <div className='z-999 flex items-center flex-col'>
             <Image src="/logo.svg" alt="Logo Scenium" width={241} height={92} className='pb-[50px]' />
             <div className='pb-[20px]'>
@@ -55,9 +55,9 @@ export default function Footer() {
                 <div className="flex" >
                     <input type="text" className={`${baseInput}, mr-[15px]`}  style={ baseStyle } placeholder='Email' />
                     <button className='flex items-center relative h-[40px] cursor-pointer' ref={btnRef} >
-                        <div className='absolute rounded-md w-[22px] h-full z-0' style={{ background: "var(--main-color)", border: "1px solid var(--secondary-blue)" }} ref={bgRef} ></div>
-                        <Image src="/arrowContactForm.svg" alt="Arrow Icon" width={15} height={15} className='rotate-[-90deg] ml-[4px]' />
-                        <p className='z-2 ml-[10px]' style={{ fontSize: 'var(--footer-social' }}>S'inscrire</p>
+                        <div className='absolute rounded-md w-[22px] h-full z-0' style={{ background: "var(--main-color-hexa)", border: "1px solid var(--secondary-blue)" }} ref={bgRef} ></div>
+                        <Image src="/arrowContactForm.svg" alt="Arrow Icon" width={15} height={15} className='rotate-[-90deg] ml-[4px] max-w-fit' />
+                        <p className='z-2 ml-[10px] pr-[10px]' style={{ fontSize: 'var(--footer-social' }}>S'inscrire</p>
                     </button>
                 </div>
             </div>

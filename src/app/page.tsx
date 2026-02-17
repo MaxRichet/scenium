@@ -1,65 +1,71 @@
+'use client'
+
 import Image from "next/image";
+import ButtonAnimation from "@/animations/ButtonAnimation";
+import React from 'react'
+import ScrollCircle from "@/components/ScrollCircle";
+import AnimatedBackground from "@/components/AnimatedBackground";
+import Link from "next/link";
+import SliderBox from "@/containers/SliderBox";
+import Command from "@/containers/Command";
+import WhoWeAre from "@/containers/WhoWeAre";
 
 export default function Home() {
+  const bgRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+  const btnRef = React.useRef<HTMLAnchorElement>(null) as React.RefObject<HTMLAnchorElement>;
+
+  ButtonAnimation(bgRef, btnRef);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main style={{ fontSize: 'var(--txt-desk)' }}>
+        <section className="text-center h-screen flex flex-col justify-center">
+          <AnimatedBackground />
+          <Image src="/logo.svg" alt="Logo Scenium" width={593} height={227} className="mx-auto z-10 relative" />
+          <div className="flex items-center justify-center z-999 mt-[40px] mb-[60px]">
+            <Image src="/crochetL.svg" alt="Crochet" width={17} height={42} />
+            <p className="text-[21px] font-semibold" >Un clic, une scène, des souvenirs</p>
+            <Image src="/crochetR.svg" alt="Crochet" width={17} height={42} />
+          </div>
+          <div 
+            style={{ border: '1px solid var(--black)' }} 
+            className="bg-black/30 rounded-[12px] text-left mx-[355px] p-[20px] z-10 relative"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <p>Marquez les esprits <span className="font-semibold">sans effort !</span> Découvrez nos scènes événementielles mobiles : un design unique, un impact garanti pour <span className="font-semibold">des mariages, anniversaires et soirées inoubliables.</span></p>
+            <p>Design unique, impact garanti.</p>
+            <div className="flex justify-end z-10 relative">
+              <Link
+                href="/scenes"
+                className="flex items-center relative h-[40px] cursor-pointer inline-flex"
+                ref={btnRef}
+              >
+                <div
+                  className="absolute rounded-md w-[22px] h-full z-0 pointer-events-none"
+                  style={{
+                    background: "var(--main-color-hexa)",
+                    border: "1px solid var(--secondary-blue)",
+                  }}
+                  ref={bgRef}
+                />
+                <Image
+                  src="/arrowContactForm.svg"
+                  alt="Arrow Icon"
+                  width={15}
+                  height={15}
+                  className="rotate-[-90deg] ml-[4px] relative z-10"
+                />
+                <p className="relative z-10 ml-[10px] pr-[10px]" style={{ fontSize: 'var(--txt-social)' }}>
+                  Découvrir nos scènes
+                </p>
+              </Link>
+            </div>
+          </div>
+          <ScrollCircle />
+        </section>
+        <div className="px-[128px]">
+          <SliderBox />
+          <Command />
+          <WhoWeAre />
         </div>
-      </main>
-    </div>
+    </main>
   );
 }

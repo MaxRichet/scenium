@@ -72,7 +72,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="flex w-full justify-center fixed">
+    <nav className="flex w-full justify-center fixed z-999">
       <div
         ref={containerRef}
         className="
@@ -120,7 +120,6 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* LIEN DROITE */}
         <Link
           href={rightLink.href}
           className="

@@ -11,7 +11,7 @@ const LINKS = [
 export default function Social() {
 
   return (
-    <div className="flex flex-wrap w-[450px] gap-[52px] content-center mb-[230px]">
+    <div className="flex flex-wrap w-[450px] gap-[52px] content-center mb-[180px] mt-[70px]">
         {LINKS.map((link) => (
             <div key={link.href}>
                 <p style={{ fontSize: "var(--title-social)" }}>{link.label}</p>
