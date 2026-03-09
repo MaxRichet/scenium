@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import ButtonAnimation from "@/animations/ButtonAnimation";
+import { flushSync } from "react-dom";
 
 type Slide = {
   id: number;
@@ -18,7 +19,7 @@ const slidesData: Slide[] = [
     id: 1,
     title: "Fleur",
     description:
-      "Créez votre jardin secret : réservez ce décor floral pour des photos d’une beauté et d’une magie inoubliables.",
+      "Créez votre jardin secret : réservez ce décor floral pour des photos inoubliables.",
     image: "/fleur.png",
   },
   {
@@ -70,12 +71,14 @@ export default function SliderBox() {
 
         const active = activeRef.current;
         const left = sliderLeftRef.current;
+        const leftPlace = placeLeftRef.current;
         const right = sliderRightRef.current;
+        const rightPlace = placeRightRef.current;
         const slider = sliderRef.current;
         const leftRightContainer = leftRightContainerRef.current;
 
         
-        if (!active || !left || !right || !slider || !leftRightContainer) return;
+        if (!active || !left || !right || !slider || !leftRightContainer || !leftPlace || !rightPlace) return;
         
         const activeBounds = active.getBoundingClientRect();
         const leftText = left.querySelector("p");
@@ -84,31 +87,33 @@ export default function SliderBox() {
 
         if (needClone) {
             clone = active.cloneNode(true) as HTMLDivElement;
-
             clone.removeAttribute("ref");
 
             const cloneText = clone.querySelector("p");
+            const cloneImg = clone.querySelector("img");
 
             if (cloneText) {
-                gsap.set(cloneText, {
-                    autoAlpha: 0,
-                    height: 0,
-                    overflow: "hidden",
-                });
+                gsap.set(cloneText, { autoAlpha: 0, height: 0, overflow: "hidden" });
             }
+
+            let mm = gsap.matchMedia();
+
+            mm.add("(min-width: 1536px)", () => {
+                gsap.set(cloneImg, { height: "80%" }); 
+            });
 
             gsap.set(clone, {
                 position: "absolute",
                 top: 0,
                 right: "-26px",
                 width: right.offsetWidth,
+                height: "100%",
                 zIndex: 10,
                 xPercent: 100,
                 border: "2px solid var(--border-grey)",
                 background: "var(--grey)",
                 borderRadius: "12px",
                 padding: "9px",
-                height: "100%",
             });
 
             leftRightContainer.appendChild(clone);
@@ -121,20 +126,21 @@ export default function SliderBox() {
                     top: "auto",
                     left: "auto",
                     width: right.offsetWidth,
-                    height: right.offsetHeight,
+                    height: "100%",
                     zIndex: "auto",
                     padding: "9px",
                 });
-                gsap.set(left.querySelector("p"), {
-                    opacity: 0
-                });
-                
-                setActiveIndex((i) => (i + 1) % total);
-
+                gsap.set(left.querySelector("p"), { opacity: 0 });
+                tl.to(left.querySelector("img"), { 
+                    height: "80%",
+                    ease: "power3.inOut" 
+                }, 0);
                 if (clone) clone.remove();
 
+                flushSync(() => {
+                    setActiveIndex((i) => (i + 1) % total);
+                });
                 gsap.set([active, left, right], { clearProps: "transform" });
-
                 isAnimating.current = false;
             },
         });
@@ -143,7 +149,11 @@ export default function SliderBox() {
         
         tl.to(left, { x: -active.offsetWidth - 26, width: activeBounds.width, height: activeBounds.height, padding: "17px" }, 0);
         tl.to(leftText, {opacity: 100}, 0.9,);
-
+        tl.to(left.querySelector("img"), { 
+            height: "auto",
+            ease: "power3.inOut" 
+        }, 0);
+        
         tl.to(right, { x: -left.offsetWidth - 26 }, 0);
 
         if (clone) {
@@ -174,7 +184,7 @@ export default function SliderBox() {
                         {/* LEFT */}
                         <div ref={placeLeftRef} className="relative w-[50%]">
                             <div ref={sliderLeftRef} style={{ background: 'var(--grey)', border: '2px solid var(--border-grey)' }} className="rounded-[12px] p-[9px] w-full absolute left-0 h-full">
-                                <Image src={previewLeft.image} alt={previewLeft.title} width={493} height={493} className="rounded-[6px] w-full" />
+                                <Image src={previewLeft.image} alt={previewLeft.title} width={493} height={493} className="rounded-[6px] w-full 2xl:h-[80%]" />
                                 <h2 style={{ fontSize: "var(--title-social)" }}>{previewLeft.title}</h2>
                                 <p style={{ fontSize: "var(--txt-social)" }} className="opacity-0">{previewLeft.description}</p>
                             </div>
@@ -183,7 +193,7 @@ export default function SliderBox() {
                         {/* RIGHT */}
                         <div ref={placeRightRef} className="relative w-[50%] h-full">
                             <div ref={sliderRightRef} style={{ background: 'var(--grey)', border: '2px solid var(--border-grey)' }} className="rounded-[12px] p-[9px] w-full absolute right-0 h-full">
-                                <Image src={previewRight.image} alt={previewRight.title} width={493} height={493} className="rounded-[6px] w-full" />
+                                <Image src={previewRight.image} alt={previewRight.title} width={493} height={493} className="rounded-[6px] w-full 2xl:h-[80%]" />
                                 <h2 style={{ fontSize: "var(--title-social)" }}>{previewRight.title}</h2>
                                 <p style={{ fontSize: "var(--txt-social)" }} className="hidden">{previewRight.description}</p>
                             </div>

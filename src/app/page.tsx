@@ -7,12 +7,26 @@ import ScrollCircle from "@/components/ScrollCircle";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Link from "next/link";
 import SliderBox from "@/containers/SliderBox";
+import SliderBoxPhone from "@/containers/SliderBoxPhone";
 import Command from "@/containers/Command";
 import WhoWeAre from "@/containers/WhoWeAre";
 
 export default function Home() {
   const bgRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
   const btnRef = React.useRef<HTMLAnchorElement>(null) as React.RefObject<HTMLAnchorElement>;
+  const [isLargeScreen, setIsLargeScreen] = React.useState(true);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth > 1536);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   ButtonAnimation(bgRef, btnRef);
 
@@ -64,11 +78,12 @@ export default function Home() {
           </div>
           <ScrollCircle />
         </section>
-        <div className="px-[128px]">
-          <SliderBox />
+        <div className="px-[128px] max-sm:px-[20px]">
+          {mounted && (isLargeScreen ? <SliderBox /> : <SliderBoxPhone />)}
           <Command />
           <WhoWeAre />
         </div>
     </main>
   );
 }
+
