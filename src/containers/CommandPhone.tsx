@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useRef, useState, useEffect, act, useLayoutEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import GlowDiv from "@/components/GlowDiv";
 import gsap from "gsap";
 import { useElementSize } from "@/utils/useElementSize";
 import ButtonAnimation from '@/animations/ButtonAnimation';
+import { flushSync } from "react-dom";
 
 type Data = {
   id: number;
@@ -35,11 +36,10 @@ const data: Data[] = [
   },
 ];
 
-export default function Command() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const lineRef = useRef<HTMLDivElement>(null);
+export default function CommandPhone() {
     const boxRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
     const { width } = useElementSize(boxRef);
+    
     const dot1 = useRef<HTMLSpanElement>(null)
     const dot2 = useRef<HTMLSpanElement>(null)
     const dot3 = useRef<HTMLSpanElement>(null)
@@ -51,80 +51,99 @@ export default function Command() {
     const img2 = useRef<HTMLImageElement>(null)
     const img3 = useRef<HTMLImageElement>(null)
 
+    const contentRef = useRef<HTMLDivElement>(null);
+
     const bgRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
     const btnRef = React.useRef<HTMLAnchorElement>(null) as React.RefObject<HTMLAnchorElement>;
+
+    const [currentStep, setCurrentStep] = useState(0);
 
     const finalWidth = width - (((width / 3) / 2) * 2) + (20 * 2);
 
     const style = { background: 'var(--nav-active)' };
 
     useEffect(() => {
-    if (!dot1.current || !dot2.current || !dot3.current) return
-    if (!line1.current || !line2.current) return
+        if (!dot1.current || !dot2.current || !dot3.current) return
+        if (!line1.current || !line2.current || !contentRef.current) return
 
-    const tl = gsap.timeline({
-        repeat: -1,
-        repeatDelay: 0.6,
-        defaults: { ease: "power2.out" }
-    })
+        const tl = gsap.timeline({
+            repeat: -1,
+            repeatDelay: 0,
+            defaults: { ease: "power2.out" }
+        })
 
-    tl.set([dot1.current, dot2.current, dot3.current], {
-        scale: 0,
-    })
+        tl.set([dot1.current, dot2.current, dot3.current], {
+            scale: 0,
+        })
 
-    tl.set([line1.current, line2.current], {
-        scaleX: 0,
-    })
+        tl.set([line1.current, line2.current], {
+            scaleX: 0,
+        })
 
-    tl.set([img1.current, img2.current, img3.current], {
-        opacity: 0
-    })
+        tl.set([img1.current, img2.current, img3.current], {
+            opacity: 0
+        })
 
-    tl.to(dot1.current, {
-        scale: 1,
-        duration: 0.6,
-        transformOrigin: "50% 50%"
-    })
-    .to(img1.current, {
-        opacity: 1,
-        duration: 0.3
-    }, "<+=0.2")
+        // Step 1
+        tl.to(dot1.current, {
+            scale: 1,
+            duration: 0.4,
+            transformOrigin: "50% 50%"
+        })
+        .to(img1.current, {
+            opacity: 1,
+            duration: 0.3
+        }, "<+=0.2")
 
-    tl.to(line1.current, {
-        scaleX: 1,
-        duration: 0.9
-    })
+        tl.to(line1.current, {
+            scaleX: 1,
+            duration: 3
+        })
 
-    tl.to(dot2.current, {
-        scale: 1,
-        duration: 0.6
-    })
-    .to(img2.current, {
-        opacity: 1,
-        duration: 0.3
-    }, "<+=0.2")
+        // Transition to Step 2
+        tl.to(contentRef.current, { opacity: 0, duration: 0.4 })
+        .call(() => {
+            flushSync(() => setCurrentStep(1));
+        })
+        .to(dot2.current, {
+            scale: 1,
+            duration: 0.4
+        })
+        .to(contentRef.current, { opacity: 1, duration: 0.3 })
+        .to(img2.current, {
+            opacity: 1,
+            duration: 0.3
+        }, "<+=0.2")
 
-    tl.to(line2.current, {
-        scaleX: 1,
-        duration: 0.9
-    })
+        tl.to(line2.current, {
+            scaleX: 1,
+            duration: 3
+        })
 
-    tl.to(dot3.current, {
-        scale: 1,
-        duration: 0.6
-    })
-    .to(img3.current, {
-        opacity: 1,
-        duration: 0.3
-    }, "<+=0.2")
+        // Transition to Step 3
+        tl.to(contentRef.current, { opacity: 0, duration: 0.4 })
+        .call(() => {
+            flushSync(() => setCurrentStep(2));
+        })
+        .to(dot3.current, {
+            scale: 1,
+            duration: 0.4
+        })
+        .to(contentRef.current, { opacity: 1, duration: 0.3 })
+        .to(img3.current, {
+            opacity: 1,
+            duration: 0.3
+        }, "<+=0.2")
 
-    tl.to(
-        [dot1.current, dot2.current, dot3.current, line1.current, line2.current],
-        {
-        duration: 0.4
-        },
-        "+=0.9"
-    )
+        // Final Wait before reset
+        tl.to({}, { duration: 3 })
+
+        // Reset preparation
+        tl.to(contentRef.current, { opacity: 0, duration: 0.4 })
+        .call(() => {
+            flushSync(() => setCurrentStep(0));
+        })
+        .to(contentRef.current, { opacity: 1, duration: 0.3 })
 
     }, [])
 
@@ -132,15 +151,14 @@ export default function Command() {
 
   return (
     <section className="mb-[60px]">
-        <h1 className="max-xl:text-[90px]! max-md:text-[60px]! max-sm:text-[45px]!" style={{ fontSize: "var(--h1-desk)" }}>Commander</h1>
+        <h1 className="max-xl:text-[90px]! max-md:text-[60px]!" style={{ fontSize: "var(--h1-desk)" }}>Commander</h1>
         <div ref={boxRef} className="flex flex-col w-full">
             <div
-            ref={lineRef}
             className={`relative flex items-center h-7 left-1/2 transform -translate-x-1/2 mb-[40px]`}
             style={{ pointerEvents: 'none', width: finalWidth }}
             >
                 <span 
-                className="relative w-8 h-7 rounded-full overflow-hidden"
+                className="relative w-8 h-7 rounded-full overflow-hidden max-lg:w-9 max-sm:w-10"
                 style={style}
                 >
                     <span
@@ -169,7 +187,7 @@ export default function Command() {
                     />
                 </div>
                 <span 
-                className="relative w-8 h-7 rounded-full overflow-hidden"
+                className="relative w-8 h-7 rounded-full overflow-hidden max-lg:w-9 max-sm:w-10"
                 style={style}
                 >
                     <span
@@ -198,7 +216,7 @@ export default function Command() {
                     />
                 </div>
                 <span 
-                className="relative w-8 h-7 rounded-full overflow-hidden"
+                className="relative w-8 h-7 rounded-full overflow-hidden max-lg:w-9 max-sm:w-10"
                 style={style}
                 >
                     <span
@@ -217,10 +235,13 @@ export default function Command() {
                     </span>
                 </span>
             </div>
-            <div ref={containerRef} className="flex items-stretch relative gap-[30px]">
-                <GlowDiv className="flex-1" >
-                    <h2 style={{ fontSize: 'var(--h2-mob)' }} className='pb-[10px]' >{data[0].title}</h2>
-                    <p style={{ fontSize: 'var(--txt-social)', lineHeight: 'var(--line-height)' }} >{data[0].text}</p>
+            
+            <div className="flex justify-center w-full">
+                <GlowDiv className="w-full" >
+                    <div ref={contentRef}>
+                        <h2 style={{ fontSize: 'var(--h2-mob)' }} className='pb-[10px]' >{data[currentStep].title}</h2>
+                        <p style={{ fontSize: 'var(--txt-social)', lineHeight: 'var(--line-height)' }} >{data[currentStep].text}</p>
+                    </div>
 
                     <div className="flex justify-end z-10 relative w-full pt-[20px] mb-[9px]">
                         <Link
@@ -248,14 +269,6 @@ export default function Command() {
                             </p>
                         </Link>
                     </div>
-                </GlowDiv>
-                <GlowDiv className="flex-1" >
-                    <h2 style={{ fontSize: 'var(--h2-mob)' }} className='pb-[10px]' >{data[1].title}</h2>
-                    <p style={{ fontSize: 'var(--txt-social)', lineHeight: 'var(--line-height)' }} >{data[1].text}</p>
-                </GlowDiv>
-                <GlowDiv className="flex-1" >
-                    <h2 style={{ fontSize: 'var(--h2-mob)' }} className='pb-[10px]' >{data[2].title}</h2>
-                    <p style={{ fontSize: 'var(--txt-social)', lineHeight: 'var(--line-height)' }} >{data[2].text}</p>
                 </GlowDiv>
             </div>
         </div>

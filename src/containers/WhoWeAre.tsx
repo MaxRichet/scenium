@@ -47,95 +47,83 @@ const data: Data[] = [
 export default function WhoWeAre() {
     const txtRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
     const { height } = useElementSize(txtRef);
+    const [isSingle, setIsSingle] = React.useState(false);
+    const [cardMaxHeight, setCardMaxHeight] = React.useState<number | string>('auto');
+
+    const cardRefs = React.useRef<(HTMLDivElement | null)[]>([]);
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth;
+            setIsSingle(width < 1024);
+
+            // Calculate max height for cards
+            if (width >= 1024) {
+              const heights = cardRefs.current
+                .filter(ref => ref !== null)
+                .map(ref => {
+                  // Temporarily reset height to measure content
+                  ref.style.height = 'auto';
+                  return ref.scrollHeight;
+                });
+              
+              // We also include the height from useElementSize if we want to match txtRef
+              // But the user said "toutes les GlowDiv aient la même height"
+              const max = Math.max(...heights, height);
+              setCardMaxHeight(max);
+            } else {
+              setCardMaxHeight('auto');
+            }
+        };
+
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        // Also listen to height changes from useElementSize
+        return () => window.removeEventListener("resize", handleResize);
+    }, [height]);
 
   return (
     <section>
-        <h1 style={{ fontSize: "var(--h1-desk)" }} >Qui sommes-nous ?</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[26px]">
-            <div ref={txtRef} className="md:col-span-2 lg:col-span-2">
-                <p style={{ fontSize: 'var(--txt-social)' }}>
+        <h1 className="max-xl:text-[90px]! max-md:text-[60px]! max-sm:text-[45px]!" style={{ fontSize: "var(--h1-desk)" }} >Qui sommes-nous ?</h1>
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[26px]">
+            <div ref={txtRef} className="col-span-1 lg:col-span-2 xl:col-span-2">
+                <p style={{ fontSize: 'var(--txt-social)' }} className="max-xl:text-justify">
                     Chez <span className="font-semibold">Scenium</span>, on ne capture pas juste des photos,
                     on cree des experiences. Notre mission : transformer chaque evenement en un décor unique,
                     immersif et inoubliable.
                 </p>
-                <p style={{ fontSize: 'var(--txt-social)' }}>
+                <p style={{ fontSize: 'var(--txt-social)' }} className="max-xl:text-justify">
                     Nos scenes melent design, innovation et storytelling pour offrir des souvenirs memorables
                     et viraux. Inspirees des tendances artistiques et concues avec des materiaux durables,
                     elles s’installent partout et s’adaptent a tous vos evenements.
                 </p>
             </div>
-            <GlowDiv className="lg:col-span-1">
-                <div className="flex mb-[10px] mt-[20px]">
-                    <div
-                        className="flex items-center rounded-[5px] my-[5px] px-[8px]"
-                        style={{ background: 'rgba(var(--main-color-rgb), 0.4)' }}
-                    >
-                        <Image
-                            src={data[0].image}
-                            alt={data[0].alt}
-                            width={17}
-                            height={17}
-                            className="w-[26px]"
-                        />
-                    </div>
-                    <h2 style={{ fontSize: 'var(--h2-mob)' }} className="ml-[10px]">{data[0].title}</h2>
-                </div>
-                <p style={{ fontSize: 'var(--whoweare)' }}>{data[0].text}</p>
-            </GlowDiv>
-            <GlowDiv style={{height: `${height}px`}}>
-                <div className="flex mb-[10px] mt-[20px]">
-                    <div
-                        className="flex items-center rounded-[5px] my-[5px] px-[8px]"
-                        style={{ background: 'rgba(var(--main-color-rgb), 0.4)' }}
-                    >
-                        <Image
-                            src={data[1].image}
-                            alt={data[1].alt}
-                            width={15}
-                            height={15}
-                            className="w-[22px]"
-                        />
-                    </div>
-                    <h2 style={{ fontSize: 'var(--h2-mob)' }} className="ml-[10px]">{data[1].title}</h2>
-                </div>
-                <p style={{ fontSize: 'var(--whoweare)' }}>{data[1].text}</p>
-            </GlowDiv>
-            <GlowDiv>
-                <div className="flex mb-[10px] mt-[20px]">
-                    <div
-                        className="flex items-center rounded-[5px] my-[5px] px-[8px]"
-                        style={{ background: 'rgba(var(--main-color-rgb), 0.4)' }}
-                    >
-                        <Image
-                            src={data[2].image}
-                            alt={data[2].alt}
-                            width={15}
-                            height={15}
-                            className="w-[26px]"
-                        />
-                    </div>
-                    <h2 style={{ fontSize: 'var(--h2-mob)' }} className="ml-[10px]">{data[2].title}</h2>
-                </div>
-                <p style={{ fontSize: 'var(--whoweare)' }}>{data[2].text}</p>
-            </GlowDiv>
-            <GlowDiv>
-                <div className="flex mb-[10px] mt-[20px]">
-                    <div
-                        className="flex items-center rounded-[5px] my-[5px] px-[8px]"
-                        style={{ background: 'rgba(var(--main-color-rgb), 0.4)' }}
-                    >
-                        <Image
-                            src={data[3].image}
-                            alt={data[3].alt}
-                            width={15}
-                            height={15}
-                            className="w-[23px]"
-                        />
-                    </div>
-                    <h2 style={{ fontSize: 'var(--h2-mob)' }} className="ml-[10px]">{data[3].title}</h2>
-                </div>
-                <p style={{ fontSize: 'var(--whoweare)' }}>{data[3].text}</p>
-            </GlowDiv>
+            
+            {data.map((item, index) => (
+              <GlowDiv 
+                key={item.id}
+                ref={(el: any) => (cardRefs.current[index] = el)}
+                style={{ height: cardMaxHeight !== 'auto' ? `${cardMaxHeight}px` : 'auto' }}
+                className="col-span-1 pb-[30px]"
+              >
+                  <div className="flex mb-[10px] mt-[20px]">
+                      <div
+                          className="flex items-center rounded-[5px] my-[5px] px-[8px]"
+                          style={{ background: 'rgba(var(--main-color-rgb), 0.4)' }}
+                      >
+                          <Image
+                              src={item.image}
+                              alt={item.alt}
+                              width={17}
+                              height={17}
+                              className={index === 0 || index === 2 ? "w-[26px]" : index === 1 ? "w-[22px]" : "w-[23px]"}
+                          />
+                      </div>
+                      <h2 style={{ fontSize: 'var(--h2-mob)' }} className="ml-[10px]">{item.title}</h2>
+                  </div>
+                  <p style={{ fontSize: 'var(--whoweare)' }}>{item.text}</p>
+              </GlowDiv>
+            ))}
         </div>
     </section>
   );

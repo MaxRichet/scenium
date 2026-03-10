@@ -9,18 +9,21 @@ import Link from "next/link";
 import SliderBox from "@/containers/SliderBox";
 import SliderBoxPhone from "@/containers/SliderBoxPhone";
 import Command from "@/containers/Command";
+import CommandPhone from "@/containers/CommandPhone";
 import WhoWeAre from "@/containers/WhoWeAre";
 
 export default function Home() {
   const bgRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
   const btnRef = React.useRef<HTMLAnchorElement>(null) as React.RefObject<HTMLAnchorElement>;
   const [isLargeScreen, setIsLargeScreen] = React.useState(true);
+  const [isDesktop, setIsDesktop] = React.useState(true);
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
     const handleResize = () => {
       setIsLargeScreen(window.innerWidth > 1536);
+      setIsDesktop(window.innerWidth > 1024);
     };
 
     handleResize();
@@ -31,7 +34,7 @@ export default function Home() {
   ButtonAnimation(bgRef, btnRef);
 
   return (
-    <main style={{ fontSize: 'var(--txt-desk)' }}>
+    <main className="max-lg:text-[20px]" style={{ fontSize: 'var(--txt-desk)' }}>
         <section className="text-center h-screen flex flex-col justify-center">
           <AnimatedBackground />
           <Image src="/logo.svg" alt="Logo Scenium" width={593} height={227} className="mx-auto z-10 relative" />
@@ -45,6 +48,7 @@ export default function Home() {
             className="
               bg-black/30 rounded-[12px] text-left mx-[355px] p-[20px] z-10 relative
               max-2xl:mx-[150px]
+              max-lg:mx-[50px]
             "
           >
             <p>Marquez les esprits <span className="font-semibold">sans effort !</span> Découvrez nos scènes événementielles mobiles : un design unique, un impact garanti pour <span className="font-semibold">des mariages, anniversaires et soirées inoubliables.</span></p>
@@ -78,12 +82,13 @@ export default function Home() {
           </div>
           <ScrollCircle />
         </section>
-        <div className="px-[128px] max-sm:px-[20px]">
+        <div className="px-[128px] max-lg:px-[90px] max-md:px-[60px] max-sm:px-[20px]">
           {mounted && (isLargeScreen ? <SliderBox /> : <SliderBoxPhone />)}
-          <Command />
+          {mounted && (isDesktop ? <Command /> : <CommandPhone />)}
           <WhoWeAre />
         </div>
     </main>
   );
 }
+
 

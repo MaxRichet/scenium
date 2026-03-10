@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ReactNode, CSSProperties } from 'react';
+import React, { ReactNode, CSSProperties, forwardRef } from 'react';
 import { useGlowBorder } from '@/animations/GlowBorder';
 
 type Props = {
@@ -9,10 +9,13 @@ type Props = {
   children: ReactNode;
 };
 
-export default function GlowDiv({ className, style, children }: Props) {
-  const ref = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+const GlowDiv = forwardRef<HTMLDivElement, Props>(({ className, style, children }, ref) => {
+  const innerRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+  
+  // Use the forwarded ref if provided, otherwise use internal ref
+  const activeRef = (ref as React.RefObject<HTMLDivElement>) || innerRef;
 
-  useGlowBorder(ref);
+  useGlowBorder(activeRef);
 
   return (
     <div
@@ -34,4 +37,8 @@ export default function GlowDiv({ className, style, children }: Props) {
       {children}
     </div>
   );
-}
+});
+
+GlowDiv.displayName = 'GlowDiv';
+
+export default GlowDiv;
