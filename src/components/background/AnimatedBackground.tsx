@@ -2,7 +2,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react';
-import MetaBalls from '@/components/MetaBalls';
+import MetaBalls from '@/components/background/MetaBalls';
 
 type AnimatedBackgroundProps = {
   baseBallCount?: number;

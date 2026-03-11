@@ -109,7 +109,7 @@ export default function Navbar() {
             absolute top-[2px] bottom-[2px]
             rounded-[9px] z-6
           "
-          style={{ background: "var(--nav-active" }}
+          style={{ background: "var(--nav-active)" }}
         />
 
         <div
@@ -119,7 +119,7 @@ export default function Navbar() {
             rounded-[9px]
             opacity-0 z-5
           "
-          style={{ background: "var(--nav-hover" }}
+          style={{ background: "var(--nav-hover)" }}
         />
 
         <div className="flex ml-[2px]">

@@ -1,12 +1,12 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
-import ContactForm from '@/components/ContactForm'
+import ContactForm from '@/components/forms/ContactForm'
 
 // Mock fetch
 global.fetch = vi.fn()
 
 // Mock DatePicker
-vi.mock('@/components/DatePicker', () => ({
+vi.mock('@/components/forms/DatePicker', () => ({
   __esModule: true,
   default: ({ name, value, onChange, style }: any) => (
     <div>
