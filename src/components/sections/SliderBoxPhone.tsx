@@ -83,6 +83,7 @@ export default function SliderBoxPhone() {
   }, [activeIndex, isSingle]);
 
 
+
   return (
     <section className="mt-[60px]">
       <Title as="h1" className="mb-4">Nos scènes</Title>
