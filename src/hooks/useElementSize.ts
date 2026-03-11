@@ -5,7 +5,7 @@ type Size = {
   height: number;
 };
 
-export function useElementSize(ref: RefObject<HTMLElement>) {
+export function useElementSize(ref: RefObject<HTMLElement | null>) {
   const [size, setSize] = useState<Size>({
     width: 0,
     height: 0,
