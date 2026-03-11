@@ -4,8 +4,8 @@ import { useEffect } from 'react'
 import gsap from "gsap";
 
 export default function ButtonAnimation(
-  bgRef: React.RefObject<HTMLDivElement>,
-  btnRef: React.RefObject<HTMLElement>
+  bgRef: React.RefObject<HTMLDivElement | null>,
+  btnRef: React.RefObject<HTMLElement | null>
 ) {
   useEffect(() => {
     const btn = btnRef.current;

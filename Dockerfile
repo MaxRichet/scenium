@@ -1,16 +1,11 @@
-FROM node:20-alpine
+FROM oven/bun:latest
 
-# Dossier de travail
 WORKDIR /app
 
-# Copier uniquement les dépendances
-COPY package*.json ./
+COPY package.json bun.lock ./
 
-# Installer les dépendances
-RUN npm install
+RUN bun install --frozen-lockfile
 
-# Le code sera monté via volume
 EXPOSE 3000
 
-# Lancer Next.js en mode dev
-CMD ["npm", "run", "dev"]
+CMD ["bun", "run", "dev"]
