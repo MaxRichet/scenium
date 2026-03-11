@@ -68,18 +68,10 @@ export default function ContactForm() {
         date: formData.get('date'),
         boxes: type === 'reservation' ? boxes : [],
         message: formData.get('message'),
-        website_url: formData.get('website_url'), // Honeypot
       }),
     })
 
-    if (res.ok) {
-      setSent(true)
-    } else if (res.status === 429) {
-      const data = await res.json()
-      alert(data.error)
-    } else {
-      alert("Une erreur est survenue lors de l'envoi.")
-    }
+    if (res.ok) setSent(true)
     setLoading(false)
   }
 
@@ -116,11 +108,6 @@ export default function ContactForm() {
         className={`${baseInput}`}
         style={{ border: `${border(errors.email)}` }}
       />
-
-      {/* HONEYPOT - Hidden from humans */}
-      <div style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
-        <input type="text" name="website_url" tabIndex={-1} autoComplete="off" />
-      </div>
 
       {/* TYPE EVENT */}
       {type === 'reservation' && (
