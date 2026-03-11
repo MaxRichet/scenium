@@ -124,8 +124,8 @@ export default function SliderBoxPhone() {
   );
 
   return (
-    <section className="mt-[60px]">
-      <h1 style={{ fontSize: "var(--h1-desk)" }} className="mb-4">Nos scènes</h1>
+    <section className="mt-[60px] mb-[60px]">
+      <h1 style={{ fontSize: "var(--h1-desk)" }} className="mb-4 max-xl:text-[90px]! max-md:text-[60px]! max-sm:text-[45px]!">Nos scènes</h1>
       
       <div className="relative overflow-hidden">
         <div ref={containerRef} className="flex relative" style={{ gap: isSingle ? "0px" : "26px" }}>

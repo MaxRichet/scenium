@@ -167,8 +167,8 @@ export default function SliderBox() {
     }, [activeIndex]);
 
   return (
-    <section>
-        <h1 style={{ fontSize: "var(--h1-desk)" }}>Nos scènes</h1>
+    <section className="mb-[60px]">
+        <h1 className="max-xl:text-[90px]!" style={{ fontSize: "var(--h1-desk)" }}>Nos scènes</h1>
             <div ref={sliderRef} className="relative flex gap-[26px] overflow-hidden">
                 
                 {/* ACTIVE */}

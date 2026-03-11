@@ -39,8 +39,8 @@ export default function RootLayout({
         className={myFont.variable}
       >
         <div className="flex items-center pt-[30px] fixed z-999">
-          <Link href='/' className="ml-[125px] cursor-pointer z-10">
-            <Image src='/logo.svg' alt='Logo Scenium' width={115} height={44} />
+          <Link href='/' className="ml-[125px] cursor-pointer z-10 max-xl:ml-[30px]">
+            <Image src='/logoN.svg' alt='Logo Scenium' width={115} height={44} className="max-lg:hidden" />
           </Link>
           <Navbar />
         </div>

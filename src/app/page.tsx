@@ -34,14 +34,12 @@ export default function Home() {
   ButtonAnimation(bgRef, btnRef);
 
   return (
-    <main className="max-lg:text-[20px]" style={{ fontSize: 'var(--txt-desk)' }}>
+    <main className="max-lg:text-[20px]!" style={{ fontSize: 'var(--txt-desk)' }}>
         <section className="text-center h-screen flex flex-col justify-center">
           <AnimatedBackground />
-          <Image src="/logo.svg" alt="Logo Scenium" width={593} height={227} className="mx-auto z-10 relative" />
+          <Image src="/logoN.svg" alt="Logo Scenium" width={593} height={227} className="mx-auto z-10 relative max-md:w-[450px] max-sm:w-[300px]" />
           <div className="flex items-center justify-center z-10 mt-[40px] mb-[60px]">
-            <Image src="/crochetL.svg" alt="Crochet" width={17} height={42} />
             <p className="text-[21px] font-semibold" >Un clic, une scène, des souvenirs</p>
-            <Image src="/crochetR.svg" alt="Crochet" width={17} height={42} />
           </div>
           <div 
             style={{ border: '1px solid var(--black)' }} 
@@ -49,6 +47,7 @@ export default function Home() {
               bg-black/30 rounded-[12px] text-left mx-[355px] p-[20px] z-10 relative
               max-2xl:mx-[150px]
               max-lg:mx-[50px]
+              max-sm:mx-[20px]
             "
           >
             <p>Marquez les esprits <span className="font-semibold">sans effort !</span> Découvrez nos scènes événementielles mobiles : un design unique, un impact garanti pour <span className="font-semibold">des mariages, anniversaires et soirées inoubliables.</span></p>

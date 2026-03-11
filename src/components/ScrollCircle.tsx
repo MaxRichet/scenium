@@ -20,7 +20,7 @@ export default function ScrollCircle() {
   }, [])
 
   return (
-    <div className="w-[120px] h-[120px] mx-auto absolute top-[83%] left-1/2 -translate-x-1/2">
+    <div className="w-[120px] h-[120px] mx-auto absolute top-[83%] left-1/2 -translate-x-1/2 max-md:hidden">
       <svg
         ref={circleRef}
         viewBox="0 0 300 300"
