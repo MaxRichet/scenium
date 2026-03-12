@@ -27,6 +27,8 @@ jobs:
 
       - name: Build
         run: bun run build
+        env:
+          RESEND_API_KEY: re_dummy
 
   deploy:
     runs-on: ubuntu-latest
