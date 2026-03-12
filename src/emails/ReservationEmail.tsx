@@ -4,13 +4,15 @@ type Props = {
   email: string
   message: string
   boxes: string[]
+  date: string
 }
 
-export default function ReservationEmail({ email, message, boxes }: Props) {
+export default function ReservationEmail({ email, message, boxes, date }: Props) {
   return (
     <Html>
       <Text>📅 Demande de réservation</Text>
       <Text>Email client : {email}</Text>
+      <Text>Date souhaitée : {date}</Text>
 
       <Text>Box souhaitée :</Text>
       {boxes.map((box, index) => (
