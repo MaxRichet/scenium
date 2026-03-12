@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ArrowIcon from "./icons/Arrow";
+import ArrowIcon from "../icons/Arrow";
 
 const LINKS = [
     { label: 'Email', content: 'scenium@gmail.com', href: 'mailto:scenium@gmail.com' },

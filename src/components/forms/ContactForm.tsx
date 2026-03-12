@@ -1,19 +1,20 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import DatePicker from './DatePicker'
 import Image from 'next/image'
-import ButtonAnimation from "@/animations/ButtonAnimation";
+import ButtonAnimation from "@/hooks/ButtonAnimation";
+import type { ContactType } from '@/types/contact'
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [type, setType] = useState<'reservation' | 'information'>('reservation')
+  const [type, setType] = useState<ContactType>('reservation')
   const [boxes, setBoxes] = useState<string[]>([''])
   const [errors, setErrors] = useState<Record<string, boolean>>({})
   const [date, setDate] = useState<Date | undefined>();
-  const bgRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
-  const btnRef = React.useRef<HTMLButtonElement>(null) as React.RefObject<HTMLButtonElement>;
+  const bgRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   ButtonAnimation(bgRef, btnRef);
 
@@ -31,7 +32,7 @@ export default function ContactForm() {
     setBoxes(updated)
   }
 
-  function changeType(newType: 'reservation' | 'information') {
+  function changeType(newType: ContactType) {
     setType(newType)
     setErrors({})
   }
@@ -46,10 +47,8 @@ export default function ContactForm() {
       email: !formData.get('email'),
       eventType: type === 'reservation' && !formData.get('eventType'),
       date: type === 'reservation' && !formData.get('date'),
-      boxes:
-        type === 'reservation' && boxes.some((box) => !box),
-      message:
-        type === 'information' && !formData.get('message'),
+      boxes: type === 'reservation' && boxes.some((box) => !box),
+      message: type === 'information' && !formData.get('message'),
     }
 
     if (Object.values(newErrors).some(Boolean)) {
@@ -100,12 +99,12 @@ export default function ContactForm() {
       {/* TYPE FORM */}
       <select
         value={type}
-        onChange={(e) => changeType(e.target.value as any)}
+        onChange={(e) => changeType(e.target.value as ContactType)}
         className={`${baseInput} w-[50%]! mb-[49px]`}
         style={{ border: `${border()}` }}
       >
         <option value="reservation">Contact réservation</option>
-        <option value="information">Demande d’information</option>
+        <option value="information">Demande d'information</option>
       </select>
 
       {/* EMAIL */}
@@ -130,7 +129,7 @@ export default function ContactForm() {
             className={`${baseInput} appearance-none mb-0!`}
             style={{ border: `${border(errors.eventType)}` }}
           >
-            <option value="" >Type d’événement</option>
+            <option value="" >Type d'événement</option>
             <option value="anniversaire">Anniversaire</option>
             <option value="entreprise">Événement pro</option>
             <option value="autre">Autre</option>
@@ -215,7 +214,7 @@ export default function ContactForm() {
       <button className='flex items-center relative h-[40px] cursor-pointer' disabled={loading} ref={btnRef} >
           <div className='absolute rounded-md w-[22px] h-full z-0' style={{ background: "var(--main-color-hexa)", border: "1px solid var(--secondary-blue)" }} ref={bgRef} ></div>
           <Image src="/arrowContactForm.svg" alt="Arrow Icon" width={15} height={15} className='rotate-[-90deg] ml-[4px]' />
-          <p className='z-2 ml-[10px] pr-[10px]' style={{ fontSize: 'var(--txt-social' }}>{loading ? 'Envoi...' : 'Envoyer'}</p>
+          <p className='z-2 ml-[10px] pr-[10px]' style={{ fontSize: 'var(--txt-social)' }}>{loading ? 'Envoi...' : 'Envoyer'}</p>
       </button>
     </form>
   )

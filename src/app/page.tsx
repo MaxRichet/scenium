@@ -1,37 +1,27 @@
 'use client'
 
-import Image from "next/image";
-import ButtonAnimation from "@/animations/ButtonAnimation";
 import React from 'react'
-import ScrollCircle from "@/components/ScrollCircle";
-import AnimatedBackground from "@/components/AnimatedBackground";
-import Link from "next/link";
-import SliderBox from "@/containers/SliderBox";
-import SliderBoxPhone from "@/containers/SliderBoxPhone";
-import Command from "@/containers/Command";
-import CommandPhone from "@/containers/CommandPhone";
-import WhoWeAre from "@/containers/WhoWeAre";
+import Image from "next/image";
+import ScrollCircle from "@/components/background/ScrollCircle";
+import AnimatedBackground from "@/components/background/AnimatedBackground";
+import CTAButton from "@/components/ui/CTAButton";
+import Card from "@/components/ui/Card";
+import Text from "@/components/ui/Text";
+import SliderBox from "@/components/sections/SliderBox";
+import SliderBoxPhone from "@/components/sections/SliderBoxPhone";
+import Command from "@/components/sections/Command";
+import CommandPhone from "@/components/sections/CommandPhone";
+import WhoWeAre from "@/components/sections/WhoWeAre";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 export default function Home() {
-  const bgRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
-  const btnRef = React.useRef<HTMLAnchorElement>(null) as React.RefObject<HTMLAnchorElement>;
-  const [isLargeScreen, setIsLargeScreen] = React.useState(true);
-  const [isDesktop, setIsDesktop] = React.useState(true);
   const [mounted, setMounted] = React.useState(false);
+  const isLargeScreen = useBreakpoint(1536);
+  const isDesktop = useBreakpoint(1024);
 
   React.useEffect(() => {
     setMounted(true);
-    const handleResize = () => {
-      setIsLargeScreen(window.innerWidth > 1536);
-      setIsDesktop(window.innerWidth > 1024);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  ButtonAnimation(bgRef, btnRef);
 
   return (
     <main className="max-lg:text-[20px]!" style={{ fontSize: 'var(--txt-desk)' }}>
@@ -39,46 +29,17 @@ export default function Home() {
           <AnimatedBackground />
           <Image src="/logoN.svg" alt="Logo Scenium" width={593} height={227} className="mx-auto z-10 relative max-md:w-[450px] max-sm:w-[300px]" />
           <div className="flex items-center justify-center z-10 mt-[40px] mb-[60px]">
-            <p className="text-[21px] font-semibold" >Un clic, une scène, des souvenirs</p>
+            <Image src="/crochetL.svg" alt="Crochet" width={17} height={42} />
+            <Text>Un clic, une scène, des souvenirs</Text>
+            <Image src="/crochetR.svg" alt="Crochet" width={17} height={42} />
           </div>
-          <div 
-            style={{ border: '1px solid var(--black)' }} 
-            className="
-              bg-black/30 rounded-[12px] text-left mx-[355px] p-[20px] z-10 relative
-              max-2xl:mx-[150px]
-              max-lg:mx-[50px]
-              max-sm:mx-[20px]
-            "
-          >
-            <p>Marquez les esprits <span className="font-semibold">sans effort !</span> Découvrez nos scènes événementielles mobiles : un design unique, un impact garanti pour <span className="font-semibold">des mariages, anniversaires et soirées inoubliables.</span></p>
-            <p>Design unique, impact garanti.</p>
+          <Card variant="ghost" className="text-left mx-[355px] p-[20px] z-10 relative max-2xl:mx-[150px] max-lg:mx-[50px] max-sm:mx-[20px]">
+            <Text>Marquez les esprits <span className="font-semibold">sans effort !</span> Découvrez nos scènes événementielles mobiles : un design unique, un impact garanti pour <span className="font-semibold">des mariages, anniversaires et soirées inoubliables.</span></Text>
+            <Text>Design unique, impact garanti.</Text>
             <div className="flex justify-end z-10 relative">
-              <Link
-                href="/scenes"
-                className="flex items-center relative h-[40px] cursor-pointer inline-flex"
-                ref={btnRef}
-              >
-                <div
-                  className="absolute rounded-md w-[22px] h-full z-0 pointer-events-none"
-                  style={{
-                    background: "var(--main-color-hexa)",
-                    border: "1px solid var(--secondary-blue)",
-                  }}
-                  ref={bgRef}
-                />
-                <Image
-                  src="/arrowContactForm.svg"
-                  alt="Arrow Icon"
-                  width={15}
-                  height={15}
-                  className="rotate-[-90deg] ml-[4px] relative z-10"
-                />
-                <p className="relative z-10 ml-[10px] pr-[10px]" style={{ fontSize: 'var(--txt-social)' }}>
-                  Découvrir nos scènes
-                </p>
-              </Link>
+              <CTAButton href="/scenes" label="Découvrir nos scènes" />
             </div>
-          </div>
+          </Card>
           <ScrollCircle />
         </section>
         <div className="px-[128px] max-lg:px-[90px] max-md:px-[60px] max-sm:px-[20px]">
@@ -89,5 +50,3 @@ export default function Home() {
     </main>
   );
 }
-
-
