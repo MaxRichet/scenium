@@ -57,7 +57,7 @@ export default function Footer() {
                     <button className='flex items-center relative h-[40px] cursor-pointer' ref={btnRef} >
                         <div className='absolute rounded-md w-[22px] h-full z-0' style={{ background: "var(--main-color-hexa)", border: "1px solid var(--secondary-blue)" }} ref={bgRef} ></div>
                         <Image src="/arrowContactForm.svg" alt="Arrow Icon" width={15} height={15} className='rotate-[-90deg] ml-[4px] max-w-fit' />
-                        <p className='z-2 ml-[10px] pr-[10px]' style={{ fontSize: 'var(--footer-social' }}>S'inscrire</p>
+                        <p className='z-2 ml-[10px] pr-[10px]' style={{ fontSize: 'var(--footer-social)' }}>S&apos;inscrire</p>
                     </button>
                 </div>
             </div>
@@ -73,7 +73,7 @@ export default function Footer() {
             <p style={{ fontSize: 'var(--footer-title)' }} >Informations pratiques</p>
             <ul className='flex flex-col items-center xl:items-start'>
                 <li><Link href="/legal" style={{ fontSize: 'var(--footer-links)' }}>informations légales</Link></li>
-                <li><Link href="/privacy" style={{ fontSize: 'var(--footer-links' }}>Politique de confidentialité</Link></li>
+                <li><Link href="/privacy" style={{ fontSize: 'var(--footer-links)' }}>Politique de confidentialité</Link></li>
             </ul>
         </div>
       </footer>

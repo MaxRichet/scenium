@@ -96,7 +96,7 @@ export default function SliderBox() {
                 gsap.set(cloneText, { autoAlpha: 0, height: 0, overflow: "hidden" });
             }
 
-            let mm = gsap.matchMedia();
+            const mm = gsap.matchMedia();
 
             mm.add("(min-width: 1536px)", () => {
                 gsap.set(cloneImg, { height: "80%" }); 
@@ -164,6 +164,7 @@ export default function SliderBox() {
     useEffect(() => {
         const interval = setInterval(slideNext, 2000);
         return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeIndex]);
 
   return (
