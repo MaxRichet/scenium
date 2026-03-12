@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
           : 'Nouvelle demande de renseignement',
       react:
         body.type === 'reservation'
-          ? ReservationEmail({ email: body.email, message: body.message ?? '', boxes: body.boxes })
+          ? ReservationEmail({ email: body.email, message: body.message ?? '', boxes: body.boxes, date: body.date })
           : InformationEmail({ email: body.email, message: body.message }),
     })
 
