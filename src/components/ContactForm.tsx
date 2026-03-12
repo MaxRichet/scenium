@@ -71,7 +71,7 @@ export default function ContactForm() {
         date: formData.get('date'), // Ensure this matches hidden input from DatePicker
         boxes: type === 'reservation' ? boxes : [],
         message: formData.get('message'),
-        hp_verify: formData.get('hp_verify'), // Honeypot
+        fax_number: formData.get('fax_number'), // Honeypot
       }),
     })
 
@@ -213,10 +213,9 @@ export default function ContactForm() {
                 className={`${baseInput} resize-none`}
                 style={{ border: `${border(errors.message)}` }}
               />
-        
-              {/* HONEYPOT - Hidden from humans, renamed and moved here to avoid autofill confusion */}
+
               <div style={{ position: 'absolute', opacity: 0, zIndex: -1, pointerEvents: 'none' }} aria-hidden="true">
-                <input type="text" name="hp_verify" tabIndex={-1} autoComplete="nope" />
+                <input type="text" name="fax_number" tabIndex={-1} autoComplete="nope" />
               </div>        
               {rateLimitError && (
                 <p className="text-red-500 mb-4 font-semibold">{rateLimitError}</p>

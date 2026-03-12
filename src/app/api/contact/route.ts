@@ -7,13 +7,13 @@ import InformationEmail from '@/emails/InformationEmail'
 
 export async function POST(req: Request) {
   const payload = await req.json()
-  const { type, email, message, boxes, date, hp_verify } = payload
+  const { type, email, message, boxes, date, fax_number } = payload
 
   console.log('--- NEW CONTACT SUBMISSION ---')
   console.log('Payload:', JSON.stringify(payload, null, 2))
 
   // 1. Honeypot check
-  if (hp_verify) {
+  if (fax_number) {
     console.warn('BOT DETECTED: Honeypot field filled')
     return NextResponse.json({ success: true })
   }
