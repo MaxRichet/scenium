@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: 'Contact <onboarding@resend.dev>',
       to: process.env.CONTACT_RECEIVER_EMAIL!,
       replyTo: body.email,

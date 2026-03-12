@@ -20,9 +20,11 @@ export default function Navbar() {
   const activeRef = useRef<HTMLDivElement>(null)
   const hoverRef = useRef<HTMLDivElement>(null)
 
-  const [activeIndex, setActiveIndex] = useState(0)
   const [isDesktop, setIsDesktop] = useState(true)
   const [mounted, setMounted] = useState(false)
+
+  const foundIndex = LINKS.findIndex(l => l.href === pathname)
+  const activeIndex = foundIndex === -1 ? 0 : foundIndex
 
   useEffect(() => {
     setMounted(true)
@@ -36,18 +38,6 @@ export default function Navbar() {
 
   const leftLinks = LINKS.slice(0, -1)
   const rightLink = LINKS[LINKS.length - 1]
-
-  useEffect(() => {
-    const index = LINKS.findIndex(l => l.href === pathname)
-    setActiveIndex(index === -1 ? 0 : index)
-  }, [pathname])
-
-  useEffect(() => {
-    if (isDesktop) {
-      moveActive(activeIndex)
-      resetHover()
-    }
-  }, [activeIndex, isDesktop])
 
   const getLinkEl = (index: number) =>
     containerRef.current?.querySelectorAll<HTMLAnchorElement>('a')[index]
@@ -85,6 +75,14 @@ export default function Navbar() {
       opacity: 0,
     })
   }
+
+  useEffect(() => {
+    if (isDesktop) {
+      moveActive(activeIndex)
+      resetHover()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex, isDesktop])
 
   if (!mounted) return null
 
