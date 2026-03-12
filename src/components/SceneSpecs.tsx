@@ -1,6 +1,6 @@
 import SpotlightCard from "@/components/SpotlightCard";
-import Text from "@/components/ui/Text";
-import Title from "@/components/ui/Title";
+import Text from "@/components/Text";
+import Title from "@/components/Title";
 import { Layers, Maximize2, Lightbulb, Zap, Sparkles, ScanLine, type LucideIcon } from "lucide-react";
 
 export type SceneSpec = {

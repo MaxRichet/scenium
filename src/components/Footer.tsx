@@ -1,12 +1,12 @@
 'use client'
 
 import React from 'react'
+import { useEffect, useRef } from "react";
+import footerLinkAnimation from '@/animations/FooterLinkAnimation';
 import Image from "next/image";
-import ButtonAnimation from "@/hooks/ButtonAnimation";
-import AnimatedBackground from "@/components/background/AnimatedBackground";
-import AnimatedLink from "@/components/ui/AnimatedLink";
-import Text from "@/components/ui/Text";
-import Title from "@/components/ui/Title";
+import Link from "next/link";
+import ButtonAnimation from "@/animations/ButtonAnimation";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 export default function Footer() {
 
@@ -16,18 +16,25 @@ export default function Footer() {
     };
     const baseInput = 'w-full rounded-lg border bg-black px-[15px] py-[5px] outline-none cursor-pointer text-[19px]';
 
-    const bgRef = React.useRef<HTMLDivElement>(null);
-    const btnRef = React.useRef<HTMLButtonElement>(null);
+    const bgRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+    const btnRef = React.useRef<HTMLButtonElement>(null) as React.RefObject<HTMLButtonElement>;
+
+    const footerRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        if (!footerRef.current) return;
+        footerLinkAnimation(footerRef.current);
+    }, []);
 
     ButtonAnimation(bgRef, btnRef);
 
   return (
-      <footer className='grid grid-cols-1 md:grid-cols-2 xl:flex xl:flex-row justify-evenly relative mt-[100px] py-[100px] xl:py-[200px] items-center gap-[60px] xl:gap-0 justify-items-center'>
+      <footer className='grid grid-cols-1 md:grid-cols-2 xl:flex xl:flex-row justify-evenly relative lg:mt-[100px] py-[50px] lg:py-[100px] xl:py-[200px] items-center gap-[60px] xl:gap-0 justify-items-center' ref={footerRef} >
         <AnimatedBackground fadeDirection="top" />
         <div className='z-999 flex items-center flex-col md:col-span-1 xl:w-auto'>
             <Image src="/logoN.svg" alt="Logo Scenium" width={241} height={92} className='pb-[50px] lg:block hidden' />
             <div className='pb-[20px] text-center'>
-                <Title as="h2" variant="display" className='pb-[15px]'>Restez connecté</Title>
+                <p style={{ fontSize: 'var(--footer-title)' }} className='pb-[15px]' >Restez connecté</p>
                 <div className="flex justify-center">
                     <div className={`${baseClass}`} style={ baseStyle } >
                         <Image src="/tiktok.svg" alt="Tiktok Icons" width={24} height={24} />
@@ -44,29 +51,29 @@ export default function Footer() {
                 </div>
             </div>
             <div className='text-center'>
-                <Title as="h2" variant="display" className='pb-[15px]'>Pour ne rien louper</Title>
+                <p style={{ fontSize: 'var(--footer-title)' }} className='pb-[15px]' >Pour ne rien louper</p>
                 <div className="flex" >
                     <input type="text" className={`${baseInput}, mr-[15px]`}  style={ baseStyle } placeholder='Email' />
                     <button className='flex items-center relative h-[40px] cursor-pointer' ref={btnRef} >
                         <div className='absolute rounded-md w-[22px] h-full z-0' style={{ background: "var(--main-color-hexa)", border: "1px solid var(--secondary-blue)" }} ref={bgRef} ></div>
                         <Image src="/arrowContactForm.svg" alt="Arrow Icon" width={15} height={15} className='rotate-[-90deg] ml-[4px] max-w-fit' />
-                        <Text className='z-2 ml-[10px] pr-[10px]' style={{ fontSize: 'var(--footer-links)' }}>S&apos;inscrire</Text>
+                        <p className='z-2 ml-[10px] pr-[10px]' style={{ fontSize: 'var(--footer-social)' }}>S&apos;inscrire</p>
                     </button>
                 </div>
             </div>
         </div>
         <div className='z-999 text-center xl:text-left md:col-span-1 xl:w-auto'>
-            <Title as="h2" variant="display">Informations</Title>
+            <p style={{ fontSize: 'var(--footer-title)' }} >Informations</p>
             <ul className='flex flex-col items-center xl:items-start'>
-                <li><AnimatedLink href="/about" style={{ fontSize: 'var(--footer-links)' }}>A propos</AnimatedLink></li>
-                <li><AnimatedLink href="/scenes" style={{ fontSize: 'var(--footer-links)' }}>Nos scènes</AnimatedLink></li>
+                <li><Link href="/about" style={{ fontSize: 'var(--footer-links)' }}>A propos</Link></li>
+                <li><Link href="/scenes" style={{ fontSize: 'var(--footer-links)' }}>Nos scènes</Link></li>
             </ul>
         </div>
         <div className='z-999 text-center xl:text-left md:col-span-2 xl:col-span-1 xl:w-auto'>
-            <Title as="h2" variant="display">Informations pratiques</Title>
+            <p style={{ fontSize: 'var(--footer-title)' }} >Informations pratiques</p>
             <ul className='flex flex-col items-center xl:items-start'>
-                <li><AnimatedLink href="/legal" style={{ fontSize: 'var(--footer-links)' }}>informations légales</AnimatedLink></li>
-                <li><AnimatedLink href="/privacy" style={{ fontSize: 'var(--footer-links)' }}>Politique de confidentialité</AnimatedLink></li>
+                <li><Link href="/legal" style={{ fontSize: 'var(--footer-links)' }}>informations légales</Link></li>
+                <li><Link href="/privacy" style={{ fontSize: 'var(--footer-links)' }}>Politique de confidentialité</Link></li>
             </ul>
         </div>
       </footer>

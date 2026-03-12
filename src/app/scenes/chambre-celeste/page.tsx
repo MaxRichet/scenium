@@ -1,18 +1,20 @@
 "use client";
 
 import Masonry from "@/components/Masonry";
-import SceneCTA from "@/components/sections/SceneCTA";
-import SceneHero from "@/components/sections/SceneHero";
-import SceneSpecs from "@/components/sections/SceneSpecs";
-import SceneIntroOverlay from "@/components/scenes/SceneIntroOverlay";
-import CTAButton from "@/components/ui/CTAButton";
-import Text from "@/components/ui/Text";
-import Title from "@/components/ui/Title";
+import SceneCTA from "@/components/SceneCTA";
+import SceneHero from "@/components/SceneHero";
+import SceneSpecs from "@/components/SceneSpecs";
+import SceneIntroOverlay from "@/components/SceneIntroOverlay";
+import CTAButton from "@/components/CTAButton";
+import Text from "@/components/Text";
+import Title from "@/components/Title";
 import { galleryItems } from "@/data/chambre-celeste";
+import SmoothScroll from "@/app/smooth-scroll";
 
 export default function ChambreCelestePage() {
   return (
     <main>
+      <SmoothScroll/>
       <SceneIntroOverlay title="Chambre Céleste" />
       <SceneHero src="/scenes/chambre-celeste/hero.png" alt="Chambre Céleste" />
 

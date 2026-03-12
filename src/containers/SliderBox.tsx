@@ -2,14 +2,46 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
-import CTAButton from "@/components/ui/CTAButton";
-import Title from "@/components/ui/Title";
-import Text from "@/components/ui/Text";
-import { slidesData } from "@/data/scenes";
+import ButtonAnimation from "@/animations/ButtonAnimation";
 import { flushSync } from "react-dom";
 
+type Slide = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+};
+
+const slidesData: Slide[] = [
+  {
+    id: 1,
+    title: "Fleur",
+    description:
+      "Créez votre jardin secret : réservez ce décor floral pour des photos inoubliables.",
+    image: "/fleur.png",
+  },
+  {
+    id: 2,
+    title: "Nuage",
+    description:
+      "Une ambiance onirique et vaporeuse pour capturer des instants hors du temps.",
+    image: "/nuage.png",
+  },
+  {
+    id: 3,
+    title: "Ballon",
+    description:
+      "Un moment magique entouré de reflets et de lumières, idéal pour un impact visuel.",
+    image: "/ballon.png",
+  },
+];
+
 export default function SliderBox() {
+
+    const bgRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+    const btnRef = React.useRef<HTMLAnchorElement>(null) as React.RefObject<HTMLAnchorElement>;
 
     const isAnimating = useRef(false);
 
@@ -20,16 +52,18 @@ export default function SliderBox() {
     const placeRightRef = useRef<HTMLDivElement>(null);
     const sliderRef = useRef<HTMLDivElement>(null);
     const leftRightContainerRef = useRef<HTMLDivElement>(null);
-
+    
     const [activeIndex, setActiveIndex] = useState(0);
     const total = slidesData.length;
     const needClone = total <= 3;
-
+    
     const getIndex = (offset: number) => (activeIndex + offset + total) % total;
-
+    
     const activeSlide = slidesData[getIndex(0)];
     const previewLeft = slidesData[getIndex(1)];
     const previewRight = slidesData[getIndex(2)];
+
+    ButtonAnimation(bgRef, btnRef);
 
     const slideNext = () => {
         if (isAnimating.current) return;
@@ -43,9 +77,9 @@ export default function SliderBox() {
         const slider = sliderRef.current;
         const leftRightContainer = leftRightContainerRef.current;
 
-
+        
         if (!active || !left || !right || !slider || !leftRightContainer || !leftPlace || !rightPlace) return;
-
+        
         const activeBounds = active.getBoundingClientRect();
         const leftText = left.querySelector("p");
 
@@ -65,7 +99,7 @@ export default function SliderBox() {
             const mm = gsap.matchMedia();
 
             mm.add("(min-width: 1536px)", () => {
-                gsap.set(cloneImg, { height: "80%" });
+                gsap.set(cloneImg, { height: "80%" }); 
             });
 
             gsap.set(clone, {
@@ -84,7 +118,7 @@ export default function SliderBox() {
 
             leftRightContainer.appendChild(clone);
         }
-
+        
         const tl = gsap.timeline({
             defaults: { duration: 0.9, ease: "power3.inOut" },
             onComplete: () => {
@@ -97,9 +131,9 @@ export default function SliderBox() {
                     padding: "9px",
                 });
                 gsap.set(left.querySelector("p"), { opacity: 0 });
-                tl.to(left.querySelector("img"), {
+                tl.to(left.querySelector("img"), { 
                     height: "80%",
-                    ease: "power3.inOut"
+                    ease: "power3.inOut" 
                 }, 0);
                 if (clone) clone.remove();
 
@@ -112,14 +146,14 @@ export default function SliderBox() {
         });
 
         tl.to(active, { xPercent: -active.offsetWidth }, 0);
-
+        
         tl.to(left, { x: -active.offsetWidth - 26, width: activeBounds.width, height: activeBounds.height, padding: "17px" }, 0);
         tl.to(leftText, {opacity: 100}, 0.9,);
-        tl.to(left.querySelector("img"), {
+        tl.to(left.querySelector("img"), { 
             height: "auto",
-            ease: "power3.inOut"
+            ease: "power3.inOut" 
         }, 0);
-
+        
         tl.to(right, { x: -left.offsetWidth - 26 }, 0);
 
         if (clone) {
@@ -135,16 +169,16 @@ export default function SliderBox() {
 
   return (
     <section className="mb-[60px]">
-        <Title as="h1">Nos scènes</Title>
+        <h1 className="max-xl:text-[90px]!" style={{ fontSize: "var(--h1-desk)" }}>Nos scènes</h1>
             <div ref={sliderRef} className="relative flex gap-[26px] overflow-hidden">
-
+                
                 {/* ACTIVE */}
                 <div ref={activeRef} style={{ background: 'var(--grey)', border: '2px solid var(--border-grey)' }} className="rounded-[12px] p-[17px] w-[57%]">
                     <Image src={activeSlide.image} alt={activeSlide.title} width={493} height={493} className="rounded-[6px] w-full" />
-                    <Title as="h2" variant="display">{activeSlide.title}</Title>
-                    <Text className="mb-[35px]">{activeSlide.description}</Text>
+                    <h2 style={{ fontSize: "var(--title-social)" }}>{activeSlide.title}</h2>
+                    <p style={{ fontSize: "var(--txt-social)" }} className="mb-[35px]">{activeSlide.description}</p>
                 </div>
-
+                
                 <div className="flex flex-col gap-[26px]">
                     <div ref={leftRightContainerRef} className="relative flex gap-[26px] h-full">
 
@@ -152,8 +186,8 @@ export default function SliderBox() {
                         <div ref={placeLeftRef} className="relative w-[50%]">
                             <div ref={sliderLeftRef} style={{ background: 'var(--grey)', border: '2px solid var(--border-grey)' }} className="rounded-[12px] p-[9px] w-full absolute left-0 h-full">
                                 <Image src={previewLeft.image} alt={previewLeft.title} width={493} height={493} className="rounded-[6px] w-full 2xl:h-[80%]" />
-                                <Title as="h2" variant="display">{previewLeft.title}</Title>
-                                <Text className="opacity-0">{previewLeft.description}</Text>
+                                <h2 style={{ fontSize: "var(--title-social)" }}>{previewLeft.title}</h2>
+                                <p style={{ fontSize: "var(--txt-social)" }} className="opacity-0">{previewLeft.description}</p>
                             </div>
                         </div>
 
@@ -161,16 +195,39 @@ export default function SliderBox() {
                         <div ref={placeRightRef} className="relative w-[50%] h-full">
                             <div ref={sliderRightRef} style={{ background: 'var(--grey)', border: '2px solid var(--border-grey)' }} className="rounded-[12px] p-[9px] w-full absolute right-0 h-full">
                                 <Image src={previewRight.image} alt={previewRight.title} width={493} height={493} className="rounded-[6px] w-full 2xl:h-[80%]" />
-                                <Title as="h2" variant="display">{previewRight.title}</Title>
-                                <Text className="hidden">{previewRight.description}</Text>
+                                <h2 style={{ fontSize: "var(--title-social)" }}>{previewRight.title}</h2>
+                                <p style={{ fontSize: "var(--txt-social)" }} className="hidden">{previewRight.description}</p>
                             </div>
                         </div>
                     </div>
                     <div style={{ background: 'var(--grey)', border: '2px solid var(--border-grey)' }} className="z-10 rounded-[12px] py-[10px] px-[20px]" >
-                        <Text>Marquez les esprits <span className="font-semibold">sans effort !</span> Découvrez nos scènes événementielles mobiles : un design unique, un impact garanti pour <span className="font-semibold">des mariages, anniversaires et soirées inoubliables.</span></Text>
-                        <Text>Design unique, impact garanti.</Text>
+                        <p style={{ fontSize: "var(--txt-social)" }}>Marquez les esprits <span className="font-semibold">sans effort !</span> Découvrez nos scènes événementielles mobiles : un design unique, un impact garanti pour <span className="font-semibold">des mariages, anniversaires et soirées inoubliables.</span></p>
+                        <p style={{ fontSize: "var(--txt-social)" }}>Design unique, impact garanti.</p>
                         <div className="flex justify-end z-10 relative mb-[8px]">
-                          <CTAButton href="/scenes" label="Découvrir nos scènes" />
+                        <Link
+                            href="/scenes"
+                            className="flex items-center relative h-[40px] cursor-pointer inline-flex"
+                            ref={btnRef}
+                        >
+                            <div
+                            className="absolute rounded-md w-[22px] h-full z-0 pointer-events-none"
+                            style={{
+                                background: "var(--main-color-hexa)",
+                                border: "1px solid var(--secondary-blue)",
+                            }}
+                            ref={bgRef}
+                            />
+                            <Image
+                            src="/arrowContactForm.svg"
+                            alt="Arrow Icon"
+                            width={15}
+                            height={15}
+                            className="rotate-[-90deg] ml-[4px] relative z-10"
+                            />
+                            <p className="relative z-10 ml-[10px] pr-[10px]" style={{ fontSize: 'var(--txt-social)' }}>
+                            Découvrir nos scènes
+                            </p>
+                        </Link>
                         </div>
                     </div>
                 </div>

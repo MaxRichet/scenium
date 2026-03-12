@@ -5,7 +5,7 @@ import { gsap } from 'gsap';
 
 const useMedia = (queries: string[], values: number[], defaultValue: number): number => {
   const [value, setValue] = useState<number>(
-    () => values[queries.findIndex(q => matchMedia(q).matches)] ?? defaultValue
+    () => typeof window !== 'undefined' ? values[queries.findIndex(q => matchMedia(q).matches)] ?? defaultValue : defaultValue
   );
 
   useEffect(() => {

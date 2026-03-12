@@ -1,7 +1,7 @@
-import AnimatedBackground from '@/components/background/AnimatedBackground'
-import CTAButton from '@/components/ui/CTAButton'
-import Text from '@/components/ui/Text'
-import Title from '@/components/ui/Title'
+import AnimatedBackground from '@/components/AnimatedBackground'
+import CTAButton from '@/components/CTAButton'
+import Text from '@/components/Text'
+import Title from '@/components/Title'
 
 type Props = {
   eyebrow: string

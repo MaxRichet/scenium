@@ -1,9 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { getResend } from '@/lib/resend'
 import { contactRatelimit } from '@/lib/ratelimit'
-import { isReservationPayload, isInformationPayload } from '@/types/contact'
-import ReservationEmail from '@/lib/emails/ReservationEmail'
-import InformationEmail from '@/lib/emails/InformationEmail'
 
 import ReservationEmail from '@/emails/ReservationEmail'
 import InformationEmail from '@/emails/InformationEmail'
@@ -51,8 +48,9 @@ export async function POST(req: Request) {
     console.log(`Rate Limit Status: ${success ? 'OK' : 'BLOCKED'} (${remaining}/${limit}) - Reset in ${reset}`)
 
     if (!success) {
+      console.warn(`RATE LIMIT EXCEEDED for IP: ${ip}`)
       return NextResponse.json(
-        { success: false, error: 'Trop de tentatives. Veuillez réessayer plus tard.' },
+        { success: false, error: 'Vous avez envoyer trop de demande réessayer plus tard.' },
         { status: 429 }
       )
     }
@@ -64,12 +62,13 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { error } = await getResend().emails.send({
+    console.log('Sending email via Resend to:', process.env.CONTACT_RECEIVER_EMAIL)
+    const { data, error } = await getResend().emails.send({
       from: 'Contact <onboarding@resend.dev>',
       to: process.env.CONTACT_RECEIVER_EMAIL!,
-      replyTo: body.email,
+      replyTo: email,
       subject:
-        body.type === 'reservation'
+        type === 'reservation'
           ? 'Nouvelle demande de réservation'
           : 'Nouvelle demande de renseignement',
       react:
@@ -79,13 +78,18 @@ export async function POST(req: Request) {
     })
 
     if (error) {
-      console.error('RESEND ERROR:', error)
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+      console.error('RESEND API ERROR:', error)
+      return Response.json(
+        { success: false, error: error.message },
+        { status: 500 }
+      )
     }
 
-    return NextResponse.json({ success: true })
+    console.log('Email sent successfully:', data?.id)
+    return Response.json({ success: true })
+
   } catch (err) {
-    console.error('UNEXPECTED ERROR:', err)
-    return NextResponse.json({ success: false }, { status: 500 })
+    console.error('UNEXPECTED SERVER ERROR:', err)
+    return Response.json({ success: false }, { status: 500 })
   }
 }

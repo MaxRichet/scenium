@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import SceneHero from '@/components/sections/SceneHero'
+import SceneHero from '@/components/SceneHero'
 
 describe('SceneHero', () => {
   it('renders the image with the correct src and alt', () => {

@@ -100,6 +100,7 @@ export default function SliderBoxPhone() {
   useEffect(() => {
     const interval = setInterval(slideNext, 2000);
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex, isSingle]);
 
   const cardStyle: React.CSSProperties = { 

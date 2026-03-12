@@ -132,7 +132,7 @@ export default function ContactForm() {
                     className={`${baseInput} appearance-none mb-0!`}
                     style={{ border: `${border(errors.eventType)}` }}
                   >
-                    <option value="" >Type d’événement</option>
+                    <option value="" >Type d&apos;événement</option>
                     <option value="anniversaire">Anniversaire</option>
                     <option value="entreprise">Événement pro</option>
                     <option value="autre">Autre</option>

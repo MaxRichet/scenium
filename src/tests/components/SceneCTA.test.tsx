@@ -1,9 +1,9 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
-import SceneCTA from '@/components/sections/SceneCTA'
+import SceneCTA from '@/components/SceneCTA'
 
-vi.mock('@/components/background/AnimatedBackground', () => ({
+vi.mock('@/components/AnimatedBackground', () => ({
   __esModule: true,
   default: () => <div data-testid="animated-background" />,
 }))

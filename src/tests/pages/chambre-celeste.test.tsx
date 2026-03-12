@@ -8,7 +8,7 @@ vi.mock('@/components/Masonry', () => ({
   default: () => <div data-testid="masonry" />,
 }))
 
-vi.mock('@/components/background/AnimatedBackground', () => ({
+vi.mock('@/components/AnimatedBackground', () => ({
   __esModule: true,
   default: () => <div data-testid="animated-background" />,
 }))
@@ -18,19 +18,19 @@ vi.mock('@/hooks/ButtonAnimation', () => ({
   default: () => {},
 }))
 
-vi.mock('@/components/sections/SceneHero', () => ({
+vi.mock('@/components/SceneHero', () => ({
   __esModule: true,
   default: ({ src, alt }: { src: string; alt: string }) => (
     <div data-testid="scene-hero" data-src={src} data-alt={alt} />
   ),
 }))
 
-vi.mock('@/components/sections/SceneSpecs', () => ({
+vi.mock('@/components/SceneSpecs', () => ({
   __esModule: true,
   default: () => <div data-testid="scene-specs" />,
 }))
 
-vi.mock('@/components/sections/SceneCTA', () => ({
+vi.mock('@/components/SceneCTA', () => ({
   __esModule: true,
   default: ({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) => (
     <div data-testid="scene-cta">

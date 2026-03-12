@@ -3,8 +3,8 @@
 import { useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import ButtonAnimation from '@/hooks/ButtonAnimation'
-import Text from '@/components/ui/Text'
+import ButtonAnimation from '@/animations/ButtonAnimation'
+import Text from '@/components/Text'
 
 type Props = {
   href: string

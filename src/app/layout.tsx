@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import localFont from 'next/font/local'
 import Image from 'next/image'
 import Link from 'next/link'
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import SmoothScroll from "@/components/SmoothScroll";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const myFont = localFont({
@@ -45,7 +44,7 @@ export default function RootLayout({
           </Link>
           <Navbar />
         </div>
-        <SmoothScroll />
+        
         {children}
         <Footer />
       </body>
