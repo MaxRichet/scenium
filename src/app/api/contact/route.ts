@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { resend } from '@/lib/resend'
+import { getResend } from '@/lib/resend'
 import { contactRatelimit } from '@/lib/ratelimit'
 import { isReservationPayload, isInformationPayload } from '@/types/contact'
 import ReservationEmail from '@/lib/emails/ReservationEmail'
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { error } = await resend.emails.send({
+    const { error } = await getResend().emails.send({
       from: 'Contact <onboarding@resend.dev>',
       to: process.env.CONTACT_RECEIVER_EMAIL!,
       replyTo: body.email,
