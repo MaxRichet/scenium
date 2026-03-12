@@ -7,7 +7,6 @@ import CTAButton from "@/components/ui/CTAButton";
 import Title from "@/components/ui/Title";
 import Text from "@/components/ui/Text";
 import { slidesData } from "@/data/scenes";
-import Card from "@/components/ui/Card";
 import { flushSync } from "react-dom";
 
 export default function SliderBox() {
@@ -63,7 +62,7 @@ export default function SliderBox() {
                 gsap.set(cloneText, { autoAlpha: 0, height: 0, overflow: "hidden" });
             }
 
-            let mm = gsap.matchMedia();
+            const mm = gsap.matchMedia();
 
             mm.add("(min-width: 1536px)", () => {
                 gsap.set(cloneImg, { height: "80%" });
@@ -131,6 +130,7 @@ export default function SliderBox() {
     useEffect(() => {
         const interval = setInterval(slideNext, 2000);
         return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeIndex]);
 
   return (
