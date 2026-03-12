@@ -29,7 +29,7 @@ export default function Footer() {
     ButtonAnimation(bgRef, btnRef);
 
   return (
-      <footer className='grid grid-cols-1 md:grid-cols-2 xl:flex xl:flex-row justify-evenly relative mt-[100px] py-[100px] xl:py-[200px] items-center gap-[60px] xl:gap-0 justify-items-center' ref={footerRef} >
+      <footer className='grid grid-cols-1 md:grid-cols-2 xl:flex xl:flex-row justify-evenly relative lg:mt-[100px] py-[50px] lg:py-[100px] xl:py-[200px] items-center gap-[60px] xl:gap-0 justify-items-center' ref={footerRef} >
         <AnimatedBackground fadeDirection="top" />
         <div className='z-999 flex items-center flex-col md:col-span-1 xl:w-auto'>
             <Image src="/logoN.svg" alt="Logo Scenium" width={241} height={92} className='pb-[50px] lg:block hidden' />

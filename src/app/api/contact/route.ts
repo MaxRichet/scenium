@@ -6,31 +6,45 @@ import ReservationEmail from '@/emails/ReservationEmail'
 import InformationEmail from '@/emails/InformationEmail'
 
 export async function POST(req: Request) {
-  const { type, email, message, boxes, website_url } = await req.json()
+  const payload = await req.json()
+  const { type, email, message, boxes, date, hp_verify } = payload
+
+  console.log('--- NEW CONTACT SUBMISSION ---')
+  console.log('Payload:', JSON.stringify(payload, null, 2))
 
   // 1. Honeypot check
-  if (website_url) {
-    console.warn('Bot detected via Honeypot')
-    return NextResponse.json({ success: true }) // Silent fail for bots
+  if (hp_verify) {
+    console.warn('BOT DETECTED: Honeypot field filled')
+    return NextResponse.json({ success: true })
   }
 
   // 2. Rate limiting check
   if (process.env.UPSTASH_REDIS_REST_URL) {
-    const ip = req.headers.get('x-forwarded-for') || '127.0.0.1'
-    const { success } = await contactRatelimit.limit(ip)
+    // Better IP detection for Docker/Vercel
+    const forwarded = req.headers.get('x-forwarded-for')
+    const ip = forwarded ? forwarded.split(',')[0] : (req.headers.get('x-real-ip') || '127.0.0.1')
+    
+    console.log('IP Detected for Rate Limit:', ip)
+    const { success, limit, reset, remaining } = await contactRatelimit.limit(ip)
+    console.log(`Rate Limit Status: ${success ? 'OK' : 'BLOCKED'} (${remaining}/${limit}) - Reset in ${reset}`)
 
     if (!success) {
+      console.warn(`RATE LIMIT EXCEEDED for IP: ${ip}`)
       return NextResponse.json(
-        { success: false, error: 'Trop de tentatives. Veuillez réessayer plus tard.' },
+        { success: false, error: 'Vous avez envoyer trop de demande réessayer plus tard.' },
         { status: 429 }
       )
     }
   }
 
-  if (!type || !email || !message) {
-    return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
+  // Validation: Email and Type are always required.
+  if (!type || !email) {
+    console.error('VALIDATION FAILED: Missing type or email', { type, email })
+    return NextResponse.json({ error: 'Champs requis manquants (Email ou Type)' }, { status: 400 })
   }
+
   try {
+    console.log('Sending email via Resend to:', process.env.CONTACT_RECEIVER_EMAIL)
     const { data, error } = await resend.emails.send({
       from: 'Contact <onboarding@resend.dev>',
       to: process.env.CONTACT_RECEIVER_EMAIL!,
@@ -41,21 +55,23 @@ export async function POST(req: Request) {
           : 'Nouvelle demande de renseignement',
       react:
         type === 'reservation'
-          ? ReservationEmail({ email, message, boxes })
-          : InformationEmail({ email, message }),
+          ? ReservationEmail({ email, message: message || '', boxes: boxes || [], date: date || '' })
+          : InformationEmail({ email, message: message || '' }),
     })
 
     if (error) {
-      console.error('RESEND ERROR:', error)
+      console.error('RESEND API ERROR:', error)
       return Response.json(
         { success: false, error: error.message },
         { status: 500 }
       )
     }
+
+    console.log('Email sent successfully:', data?.id)
     return Response.json({ success: true })
 
   } catch (err) {
-    console.error('UNEXPECTED ERROR:', err)
+    console.error('UNEXPECTED SERVER ERROR:', err)
     return Response.json({ success: false }, { status: 500 })
   }
 }

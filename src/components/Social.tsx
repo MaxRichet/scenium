@@ -11,14 +11,14 @@ const LINKS = [
 export default function Social() {
 
   return (
-    <div className="flex flex-wrap w-[450px] gap-[52px] content-center mb-[180px] mt-[70px]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-[600px] gap-x-[80px] gap-y-[52px] mb-[100px] lg:mb-[180px] mt-[70px] justify-items-center lg:justify-items-start">
         {LINKS.map((link) => (
-            <div key={link.href}>
-                <p style={{ fontSize: "var(--title-social)" }}>{link.label}</p>
-                <div>
+            <div key={link.href} className="flex flex-col items-center lg:items-start">
+                <p style={{ fontSize: "var(--title-social)" }} className="whitespace-nowrap">{link.label}</p>
+                <div className="w-full flex justify-center lg:justify-start">
                     <Link
                     href={link.href}
-                    className="flex items-center"
+                    className="flex items-center whitespace-nowrap"
                     style={{ fontSize: "var(--txt-social)" }}
                     >
                         {link.content}

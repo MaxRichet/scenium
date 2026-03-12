@@ -10,10 +10,10 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN || '',
 })
 
-// Create a new ratelimiter, that allows 3 requests per 10 minutes
+// Create a new ratelimiter, that allows 3 requests per 1 hour
 export const contactRatelimit = new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.slidingWindow(3, '10 m'),
+  limiter: Ratelimit.slidingWindow(3, '1 h'),
   analytics: true,
   prefix: '@upstash/ratelimit/contact',
 })

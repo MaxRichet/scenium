@@ -73,6 +73,7 @@ export default function DatePicker({
             animate
             mode="single"
             selected={value}
+            disabled={{ before: new Date() }}
             onSelect={(date) => {
               onChange(date);
               setOpen(false);
