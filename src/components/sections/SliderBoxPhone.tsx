@@ -11,6 +11,23 @@ import Card from "@/components/ui/Card";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { flushSync } from "react-dom";
 
+function CardContent({ slide }: { slide: Slide }) {
+  return (
+    <>
+      <div className="relative aspect-square w-full mb-4">
+        <Image
+          src={slide.image}
+          alt={slide.title}
+          fill
+          className="rounded-[6px] object-cover"
+        />
+      </div>
+      <Title as="h2" variant="display">{slide.title}</Title>
+      <Text className="mb-[35px]">{slide.description}</Text>
+    </>
+  );
+}
+
 export default function SliderBoxPhone() {
   const isAnimating = useRef(false);
 
@@ -62,23 +79,9 @@ export default function SliderBoxPhone() {
   useEffect(() => {
     const interval = setInterval(slideNext, 2000);
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex, isSingle]);
 
-
-  const CardContent = ({ slide }: { slide: Slide }) => (
-    <>
-      <div className="relative aspect-square w-full mb-4">
-        <Image
-          src={slide.image}
-          alt={slide.title}
-          fill
-          className="rounded-[6px] object-cover"
-        />
-      </div>
-      <Title as="h2" variant="display">{slide.title}</Title>
-      <Text className="mb-[35px]">{slide.description}</Text>
-    </>
-  );
 
   return (
     <section className="mt-[60px]">

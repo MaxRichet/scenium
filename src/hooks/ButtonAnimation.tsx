@@ -36,5 +36,6 @@ export default function ButtonAnimation(
       btn.removeEventListener("mouseenter", enter);
       btn.removeEventListener("mouseleave", leave);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }

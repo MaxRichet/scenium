@@ -1,3 +1,4 @@
+import React from 'react'
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
 
@@ -24,8 +25,8 @@ vi.mock('gsap', () => ({
 // Mock next/image
 vi.mock('next/image', () => ({
   __esModule: true,
-  default: (props: any) => {
+  default: (props: React.ImgHTMLAttributes<HTMLImageElement> & { fill?: boolean }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} fill={props.fill ? "true" : undefined} />
+    return <img alt="" {...props} fill={props.fill ? "true" : undefined} />
   },
 }))
