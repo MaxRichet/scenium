@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { useRef } from "react";
 import Image from "next/image";
 import ButtonAnimation from "@/hooks/ButtonAnimation";
 import AnimatedBackground from "@/components/background/AnimatedBackground";
