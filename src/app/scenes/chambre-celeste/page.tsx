@@ -4,6 +4,7 @@ import Masonry from "@/components/Masonry";
 import SceneCTA from "@/components/sections/SceneCTA";
 import SceneHero from "@/components/sections/SceneHero";
 import SceneSpecs from "@/components/sections/SceneSpecs";
+import SceneIntroOverlay from "@/components/scenes/SceneIntroOverlay";
 import CTAButton from "@/components/ui/CTAButton";
 import Text from "@/components/ui/Text";
 import Title from "@/components/ui/Title";
@@ -12,6 +13,7 @@ import { galleryItems } from "@/data/chambre-celeste";
 export default function ChambreCelestePage() {
   return (
     <main>
+      <SceneIntroOverlay title="Chambre Céleste" />
       <SceneHero src="/scenes/chambre-celeste/hero.png" alt="Chambre Céleste" />
 
       <section className="px-[125px] py-[120px] max-lg:px-[60px] max-md:py-[70px] max-sm:px-[24px] max-sm:py-[50px]">
