@@ -5,6 +5,7 @@ import DatePicker from './DatePicker'
 import Image from 'next/image'
 import ButtonAnimation from "@/hooks/ButtonAnimation";
 import type { ContactType } from '@/types/contact'
+import Text from '@/components/ui/Text'
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false)
@@ -83,7 +84,7 @@ export default function ContactForm() {
   }
 
   if (sent) {
-    return <p className="text-green-400">Votre message a bien été envoyé.</p>
+    return <Text className="text-green-400">Votre message a bien été envoyé.</Text>
   }
 
   const baseInput =
@@ -214,7 +215,7 @@ export default function ContactForm() {
       <button className='flex items-center relative h-[40px] cursor-pointer' disabled={loading} ref={btnRef} >
           <div className='absolute rounded-md w-[22px] h-full z-0' style={{ background: "var(--main-color-hexa)", border: "1px solid var(--secondary-blue)" }} ref={bgRef} ></div>
           <Image src="/arrowContactForm.svg" alt="Arrow Icon" width={15} height={15} className='rotate-[-90deg] ml-[4px]' />
-          <p className='z-2 ml-[10px] pr-[10px]' style={{ fontSize: 'var(--txt-social)' }}>{loading ? 'Envoi...' : 'Envoyer'}</p>
+          <Text className='z-2 ml-[10px] pr-[10px]'>{loading ? 'Envoi...' : 'Envoyer'}</Text>
       </button>
     </form>
   )

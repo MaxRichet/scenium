@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import ButtonAnimation from '@/hooks/ButtonAnimation'
+import Text from '@/components/ui/Text'
 
 type Props = {
   href: string
@@ -34,9 +35,9 @@ export default function CTAButton({ href, label, className }: Props) {
         height={15}
         className="rotate-[-90deg] ml-[4px] relative z-10"
       />
-      <p className="relative z-10 ml-[10px] pr-[10px]" style={{ fontSize: 'var(--txt-social)' }}>
+      <Text className="relative z-10 ml-[10px] pr-[10px]">
         {label}
-      </p>
+      </Text>
     </Link>
   )
 }

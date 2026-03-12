@@ -1,9 +1,10 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 type Props = {
   as: 'h1' | 'h2'
   variant?: 'display'
   className?: string
+  style?: CSSProperties
   children: ReactNode
 }
 
@@ -22,12 +23,12 @@ const config = {
   },
 }
 
-export default function Title({ as: Tag, variant, className = '', children }: Props) {
+export default function Title({ as: Tag, variant, className = '', style, children }: Props) {
   const key = Tag === 'h2' && variant === 'display' ? 'h2display' : Tag
   const { fontSize, className: baseClass } = config[key]
 
   return (
-    <Tag className={`${baseClass} ${className}`.trim()} style={{ fontSize }}>
+    <Tag className={`${baseClass} ${className}`.trim()} style={{ fontSize, ...style }}>
       {children}
     </Tag>
   )
