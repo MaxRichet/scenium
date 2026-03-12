@@ -7,18 +7,24 @@ export function useGlowBorder(ref: RefObject<HTMLElement | null>) {
     const el = ref.current;
     if (!el) return;
 
+    let frameId: number;
+
     const handleMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
 
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-      el.style.setProperty('--glow-x', `${x}%`);
-      el.style.setProperty('--glow-y', `${y}%`);
-      el.style.setProperty('--glow-intensity', '1');
+        el.style.setProperty('--glow-x', `${x}%`);
+        el.style.setProperty('--glow-y', `${y}%`);
+        el.style.setProperty('--glow-intensity', '1');
+      });
     };
 
     const handleLeave = () => {
+      cancelAnimationFrame(frameId);
       el.style.setProperty('--glow-intensity', '0');
     };
 

@@ -55,7 +55,7 @@ export default function SliderBoxPhone() {
   const nextCardRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  ButtonAnimation(bgRef as any, btnRef as any);
+  ButtonAnimation(bgRef, btnRef);
 
   useEffect(() => {
     const handleResize = () => {
@@ -177,7 +177,7 @@ export default function SliderBoxPhone() {
             <Link
               href="/scenes"
               className="flex items-center relative h-[40px] cursor-pointer inline-flex"
-              ref={btnRef as any}
+              ref={btnRef}
             >
               <div
                 className="absolute rounded-md w-[22px] h-full z-0 pointer-events-none"
@@ -185,7 +185,7 @@ export default function SliderBoxPhone() {
                   background: "var(--main-color-hexa)",
                   border: "1px solid var(--secondary-blue)",
                 }}
-                ref={bgRef as any}
+                ref={bgRef}
               />
               <Image
                 src="/arrowContactForm.svg"

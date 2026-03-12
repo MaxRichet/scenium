@@ -8,7 +8,12 @@ global.fetch = vi.fn()
 // Mock DatePicker
 vi.mock('@/components/DatePicker', () => ({
   __esModule: true,
-  default: ({ name, value, onChange, style }: any) => (
+  default: ({ name, value, onChange, style }: { 
+    name: string; 
+    value?: Date; 
+    onChange: (date: Date | undefined) => void; 
+    style?: React.CSSProperties 
+  }) => (
     <div>
       <input type="hidden" name={name} value={value ? '2026-03-09' : ''} />
       <button 
@@ -77,7 +82,7 @@ describe('ContactForm', () => {
   })
 
   it('submits successfully when all fields are filled (reservation)', async () => {
-    ;(global.fetch as any).mockResolvedValue({ ok: true })
+    vi.mocked(global.fetch).mockResolvedValue({ ok: true } as Response)
     
     render(<ContactForm />)
     
@@ -101,7 +106,7 @@ describe('ContactForm', () => {
   })
 
   it('submits successfully when all fields are filled (information)', async () => {
-    ;(global.fetch as any).mockResolvedValue({ ok: true })
+    vi.mocked(global.fetch).mockResolvedValue({ ok: true } as Response)
     
     render(<ContactForm />)
     const typeSelect = screen.getByDisplayValue('Contact réservation')

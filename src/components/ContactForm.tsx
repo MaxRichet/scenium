@@ -68,10 +68,10 @@ export default function ContactForm() {
         type,
         email: formData.get('email'),
         eventType: formData.get('eventType'),
-        date: formData.get('date'), // Ensure this matches hidden input from DatePicker
+        date: formData.get('date'),
         boxes: type === 'reservation' ? boxes : [],
         message: formData.get('message'),
-        fax_number: formData.get('fax_number'), // Honeypot
+        fax_number: formData.get('fax_number'),
       }),
     })
 
@@ -105,14 +105,13 @@ export default function ContactForm() {
         onSubmit={handleSubmit}
         className="text-white py-[40px]"
       >
-        {/* TYPE FORM */}
-        <select
-          value={type}
-          onChange={(e) => changeType(e.target.value as any)}
-          className={`${baseInput} lg:w-[50%]! mb-[49px]`}
-          style={{ border: `${border()}` }}
-        >
-          <option value="reservation">Contact réservation</option>
+              {/* TYPE FORM */}
+              <select
+                value={type}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => changeType(e.target.value as 'reservation' | 'information')}
+                className={`${baseInput} lg:w-[50%]! mb-[49px]`}
+                style={{ border: `${border()}` }}
+              >          <option value="reservation">Contact réservation</option>
           <option value="information">Demande d’information</option>
         </select>
 
@@ -221,7 +220,8 @@ export default function ContactForm() {
                 <p className="text-red-500 mb-4 font-semibold">{rateLimitError}</p>
               )}
         
-              {/* SUBMIT */}        <button className='flex items-center relative h-[40px] cursor-pointer' disabled={loading} ref={btnRef} >
+            {/* SUBMIT */}
+            <button className='flex items-center relative h-[40px] cursor-pointer' disabled={loading} ref={btnRef} >
             <div className='absolute rounded-md w-[22px] h-full z-0' style={{ background: "var(--main-color-hexa)", border: "1px solid var(--secondary-blue)" }} ref={bgRef} ></div>
             <Image src="/arrowContactForm.svg" alt="Arrow Icon" width={15} height={15} className='rotate-[-90deg] ml-[4px]' />
             <p className='z-2 ml-[10px] pr-[10px]' style={{ fontSize: 'var(--txt-social' }}>{loading ? 'Envoi...' : 'Envoyer'}</p>

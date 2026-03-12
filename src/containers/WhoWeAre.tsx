@@ -102,7 +102,9 @@ export default function WhoWeAre() {
             {data.map((item, index) => (
               <GlowDiv 
                 key={item.id}
-                ref={(el: any) => (cardRefs.current[index] = el)}
+                ref={(el: HTMLDivElement | null) => {
+                  cardRefs.current[index] = el;
+                }}
                 style={{ height: cardMaxHeight !== 'auto' ? `${cardMaxHeight}px` : 'auto' }}
                 className="col-span-1 pb-[30px]"
               >

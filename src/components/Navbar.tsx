@@ -43,11 +43,11 @@ export default function Navbar() {
   }, [pathname])
 
   useEffect(() => {
-    if (isDesktop) {
+    if (isDesktop && mounted) {
       moveActive(activeIndex)
       resetHover()
     }
-  }, [activeIndex, isDesktop])
+  }, [activeIndex, isDesktop, mounted])
 
   const getLinkEl = (index: number) =>
     containerRef.current?.querySelectorAll<HTMLAnchorElement>('a')[index]
@@ -55,9 +55,11 @@ export default function Navbar() {
   const moveActive = (index: number) => {
     const el = getLinkEl(index)
     if (!el || !activeRef.current || !containerRef.current) return
-    gsap.set(activeRef.current, {
+    gsap.to(activeRef.current, {
       x: el.offsetLeft,
       width: el.offsetWidth,
+      duration: 0.35,
+      ease: 'power3.out',
     })
   }
 
@@ -75,11 +77,12 @@ export default function Navbar() {
   }
 
   const resetHover = () => {
-    if (!hoverRef.current || !activeRef.current) return
+    const el = getLinkEl(activeIndex)
+    if (!el || !hoverRef.current || !containerRef.current) return
 
     gsap.to(hoverRef.current, {
-      x: activeRef.current._gsap.x,
-      width: activeRef.current._gsap.width,
+      x: el.offsetLeft,
+      width: el.offsetWidth,
       duration: 0.35,
       ease: 'power3.out',
       opacity: 0,
@@ -109,7 +112,7 @@ export default function Navbar() {
             absolute top-[2px] bottom-[2px]
             rounded-[9px] z-6
           "
-          style={{ background: "var(--nav-active" }}
+          style={{ background: "var(--nav-active)" }}
         />
 
         <div
@@ -119,7 +122,7 @@ export default function Navbar() {
             rounded-[9px]
             opacity-0 z-5
           "
-          style={{ background: "var(--nav-hover" }}
+          style={{ background: "var(--nav-hover)" }}
         />
 
         <div className="flex ml-[2px]">

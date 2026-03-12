@@ -9,12 +9,22 @@ type Props = {
   children: ReactNode;
 };
 
+interface GlowCSSProperties extends CSSProperties {
+  '--glow-color'?: string;
+}
+
 const GlowDiv = forwardRef<HTMLDivElement, Props>(({ className, style, children }, ref) => {
   const localRef = useRef<HTMLDivElement>(null);
   
   useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
 
   useGlowBorder(localRef);
+
+  const combinedStyle: GlowCSSProperties = {
+    '--glow-color': 'var(--main-color-rgb)',
+    background: 'var(--grey)',
+    ...style
+  };
 
   return (
     <div
@@ -27,11 +37,7 @@ const GlowDiv = forwardRef<HTMLDivElement, Props>(({ className, style, children 
         px-[20px]
         py-[10px]
         ${className}`}
-      style={{
-        ['--glow-color' as any]: 'var(--main-color-rgb)',
-        background: 'var(--grey)',
-        ...style
-      }}
+      style={combinedStyle}
     >
       <div className="relative z-[10] w-full flex flex-col items-center">
         {children}

@@ -6,7 +6,21 @@ import ReservationEmail from '@/emails/ReservationEmail'
 import InformationEmail from '@/emails/InformationEmail'
 
 export async function POST(req: Request) {
-  const payload = await req.json()
+  const rawPayload = await req.json()
+  
+  // Basic sanitization: trim strings and enforce length limits
+  const sanitize = (val: unknown, maxLen: number) => 
+    typeof val === 'string' ? val.trim().slice(0, maxLen) : val
+
+  const payload = {
+    type: rawPayload.type,
+    email: sanitize(rawPayload.email, 255),
+    message: sanitize(rawPayload.message, 5000),
+    boxes: Array.isArray(rawPayload.boxes) ? rawPayload.boxes.map((b: unknown) => sanitize(b, 50)) : [],
+    date: sanitize(rawPayload.date, 20),
+    fax_number: rawPayload.fax_number // Honeypot
+  }
+
   const { type, email, message, boxes, date, fax_number } = payload
 
   console.log('--- NEW CONTACT SUBMISSION ---')
