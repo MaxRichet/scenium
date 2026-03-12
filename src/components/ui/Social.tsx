@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ArrowIcon from "../icons/Arrow";
+import Title from "@/components/ui/Title";
 
 const LINKS = [
     { label: 'Email', content: 'scenium@gmail.com', href: 'mailto:scenium@gmail.com' },
@@ -14,7 +15,7 @@ export default function Social() {
     <div className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-[600px] gap-x-[80px] gap-y-[52px] mb-[100px] lg:mb-[180px] mt-[70px] justify-items-center lg:justify-items-start">
         {LINKS.map((link) => (
             <div key={link.href} className="flex flex-col items-center lg:items-start">
-                <p style={{ fontSize: "var(--title-social)" }} className="whitespace-nowrap">{link.label}</p>
+                <Title as="h2" variant="display" className="whitespace-nowrap">{link.label}</Title>
                 <div className="w-full flex justify-center lg:justify-start">
                     <Link
                     href={link.href}
