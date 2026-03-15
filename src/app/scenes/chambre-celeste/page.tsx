@@ -15,7 +15,7 @@ export default function ChambreCelestePage() {
   return (
     <main>
       <SmoothScroll/>
-      <SceneIntroOverlay title="Chambre Céleste" />
+      <SceneIntroOverlay />
       <SceneHero src="/scenes/chambre-celeste/hero.png" alt="Chambre Céleste" />
 
       <section className="px-[125px] py-[120px] max-lg:px-[60px] max-md:py-[70px] max-sm:px-[24px] max-sm:py-[50px]">
