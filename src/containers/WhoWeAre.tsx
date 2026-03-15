@@ -47,7 +47,6 @@ const data: Data[] = [
 export default function WhoWeAre() {
     const txtRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
     const { height } = useElementSize(txtRef);
-    const [isSingle, setIsSingle] = React.useState(false);
     const [cardMaxHeight, setCardMaxHeight] = React.useState<number | string>('auto');
 
     const cardRefs = React.useRef<(HTMLDivElement | null)[]>([]);
@@ -55,8 +54,6 @@ export default function WhoWeAre() {
     React.useEffect(() => {
         const handleResize = () => {
             const width = window.innerWidth;
-            setIsSingle(width < 1024);
-
             // Calculate max height for cards
             if (width >= 1024) {
               const heights = cardRefs.current

@@ -1,3 +1,4 @@
+import React from 'react'
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
 
@@ -24,6 +25,7 @@ vi.mock('next/image', () => ({
   __esModule: true,
   default: (props: React.ImgHTMLAttributes<HTMLImageElement> & { fill?: boolean }) => {
     const { fill, ...rest } = props;
+    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
     return <img {...rest} data-fill={fill ? "true" : undefined} />
   },
 }))

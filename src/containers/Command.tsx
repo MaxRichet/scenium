@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect, act, useLayoutEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import GlowDiv from "@/components/GlowDiv";
