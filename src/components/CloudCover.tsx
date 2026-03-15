@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import Image from 'next/image'
 
@@ -21,14 +20,12 @@ const CLOUDS = [
   { left: '70%',  bottom: '52%',  width: '100vw', delay: 0.24 },
 ]
 
-export default function SceneIntroOverlay() {
-  const [visible, setVisible] = useState(true)
+type Props = {
+  visible: boolean
+  onComplete?: () => void
+}
 
-  useEffect(() => {
-    const timer = setTimeout(() => setVisible(false), 300)
-    return () => clearTimeout(timer)
-  }, [])
-
+export default function CloudCover({ visible, onComplete }: Props) {
   return (
     <AnimatePresence>
       {visible && (
@@ -44,13 +41,14 @@ export default function SceneIntroOverlay() {
                 aspectRatio: '2 / 1',
                 minWidth: '500px',
               }}
-              initial={{ y: 0, opacity: 1 }}
-              exit={{ y: '-120vh', opacity: 1 }}
+              initial={{ y: '200vh' }}
+              animate={{ y: 0 }}
               transition={{
                 duration: 1.1,
                 ease: [0.76, 0, 0.24, 1],
                 delay: cloud.delay,
               }}
+              onAnimationComplete={i === CLOUDS.length - 1 ? onComplete : undefined}
             >
               <Image
                 src="/scenes/chambre-celeste/cloud.png"

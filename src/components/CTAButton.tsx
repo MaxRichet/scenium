@@ -10,9 +10,10 @@ type Props = {
   href: string
   label: string
   className?: string
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
-export default function CTAButton({ href, label, className }: Props) {
+export default function CTAButton({ href, label, className, onClick }: Props) {
   const bgRef = useRef<HTMLDivElement>(null)
   const btnRef = useRef<HTMLAnchorElement>(null)
   ButtonAnimation(bgRef, btnRef)
@@ -21,6 +22,7 @@ export default function CTAButton({ href, label, className }: Props) {
     <Link
       href={href}
       ref={btnRef}
+      onClick={onClick}
       className={`flex items-center relative h-[40px] cursor-pointer inline-flex ${className ?? ''}`}
     >
       <div
