@@ -1,7 +1,7 @@
 import SpotlightCard from "@/components/SpotlightCard";
 import Text from "@/components/Text";
 import Title from "@/components/Title";
-import { Layers, Maximize2, Lightbulb, Zap, Sparkles, ScanLine, type LucideIcon } from "lucide-react";
+import { Layers, Maximize2, Lightbulb, Zap, Sparkles, ScanLine, Download, type LucideIcon } from "lucide-react";
 
 export type SceneSpec = {
   icon: LucideIcon
@@ -54,9 +54,20 @@ export default function SceneSpecs() {
     <section className="px-[125px] pb-[100px] max-lg:px-[60px] max-md:pb-[70px] max-sm:px-[24px] max-sm:pb-[50px]">
       <div className="mb-[50px]">
         <Text variant="eyebrow" className="font-semibold mb-[8px]">Fiche technique</Text>
-        <Title as="h2" className="font-semibold" style={{ fontSize: "clamp(28px, 3.5vw, var(--h2-desk))" }}>
-          Caractéristiques
-        </Title>
+        <div className="flex items-center justify-between gap-[16px] flex-wrap">
+          <Title as="h2" className="font-semibold" style={{ fontSize: "clamp(28px, 3.5vw, var(--h2-desk))" }}>
+            Caractéristiques
+          </Title>
+          <a
+            href="/product_specs.pdf"
+            download="product_specs.pdf"
+            className="flex items-center gap-[8px] px-[20px] py-[10px] rounded-[10px] text-sm font-medium transition-opacity hover:opacity-80"
+            style={{ background: "rgba(20, 149, 234, 0.12)", border: "1px solid rgba(20, 149, 234, 0.25)", color: "var(--main-color-hexa)" }}
+          >
+            <Download size={16} strokeWidth={1.5} />
+            Télécharger la fiche produit
+          </a>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-[16px] max-lg:grid-cols-2 max-sm:grid-cols-1">
