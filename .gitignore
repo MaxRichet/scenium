@@ -40,3 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 \n# Gemini CLI & PRPs\n.gemini/\nPRPs/
+
+.agents/
+.gemini/
+PRPs/
+skills-lock.json
