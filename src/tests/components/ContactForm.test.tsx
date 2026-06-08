@@ -5,30 +5,30 @@ import ContactForm from '@/components/ContactForm'
 // Mock fetch
 global.fetch = vi.fn()
 
-// Mock DatePicker
-vi.mock('@/components/DatePicker', () => ({
-  __esModule: true,
-  default: ({ name, value, onChange, style }: { 
-    name: string; 
-    value?: Date; 
-    onChange: (date: Date | undefined) => void; 
-    style?: React.CSSProperties 
-  }) => (
-    <div>
-      <input type="hidden" name={name} value={value ? '2026-03-09' : ''} />
-      <button 
-        type="button" 
-        onClick={() => onChange(new Date())} 
-        style={style}
-        data-testid="date-picker-btn"
-      >
-        {value ? '2026-03-09' : 'Date'}
-      </button>
-    </div>
-  )
-}))
-
 describe('ContactForm', () => {
+  // Mock DatePicker déplacé dans le describe — breaking change vitest 5
+  vi.mock('@/components/DatePicker', () => ({
+    __esModule: true,
+    default: ({ name, value, onChange, style }: { 
+      name: string; 
+      value?: Date; 
+      onChange: (date: Date | undefined) => void; 
+      style?: React.CSSProperties 
+    }) => (
+      <div>
+        <input type="hidden" name={name} value={value ? '2026-03-09' : ''} />
+        <button 
+          type="button" 
+          onClick={() => onChange(new Date())} 
+          style={style}
+          data-testid="date-picker-btn"
+        >
+          {value ? '2026-03-09' : 'Date'}
+        </button>
+      </div>
+    )
+  }))
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
